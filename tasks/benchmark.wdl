@@ -47,8 +47,6 @@ task benchmark {
 	        else
 	        	echo "only for quartet samples"	    	
 	    fi
-
-
 	>>>
 
 	runtime {
