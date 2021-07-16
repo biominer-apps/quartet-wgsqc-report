@@ -24,25 +24,25 @@ task benchmark {
 		/opt/rtg-tools/dist/rtg-tools-3.10.1-4d58ead/rtg index -f vcf ${sample}.rtg.vcf.gz
 
 		if [ ${qc_bed} ];then
-			if [[ ${sample} =~ "D5" ]];then
+			if [[ ${sample} =~ "LCL5" ]];then
 				/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL5.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f ${qc_bed}--threads $nt -o ${sample} -r ${ref_dir}/${fasta}
-		    elif [[ ${sample} =~ "D6" ]]; then
+		    elif [[ ${sample} =~ "LCL6" ]]; then
 		    	/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL6.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f ${qc_bed} --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
-	        elif [[ ${sample} =~ "F7" ]]; then
+	        elif [[ ${sample} =~ "LCL7" ]]; then
 	        	/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL7.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f ${qc_bed} --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
-		    elif [[ ${sample} =~ "M8" ]]; then
+		    elif [[ ${sample} =~ "LCL8" ]]; then
 				/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL8.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f ${qc_bed} --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
 	        else
 	        	echo "only for quartet samples"
 	        fi
 	    else
-			if [[ ${sample} =~ "D5" ]];then
+			if [[ ${sample} =~ "LCL5" ]];then
 				/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL5.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f /cromwell_root/tmp/reference_datasets_v202103/Quartet.high.confidence.region.v202103.bed --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
-		    elif [[ ${sample} =~ "D6" ]]; then
+		    elif [[ ${sample} =~ "LCL6" ]]; then
 		    	/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL6.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f /cromwell_root/tmp/reference_datasets_v202103/Quartet.high.confidence.region.v202103.bed --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
-	        elif [[ ${sample} =~ "F7" ]]; then
+	        elif [[ ${sample} =~ "LCL7" ]]; then
 	        	/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL7.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f /cromwell_root/tmp/reference_datasets_v202103/Quartet.high.confidence.region.v202103.bed --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
-		    elif [[ ${sample} =~ "M8" ]]; then
+		    elif [[ ${sample} =~ "LCL8" ]]; then
 				/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL8.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f /cromwell_root/tmp/reference_datasets_v202103/Quartet.high.confidence.region.v202103.bed --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
 	        else
 	        	echo "only for quartet samples"	    	
