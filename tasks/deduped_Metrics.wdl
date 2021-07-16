@@ -1,7 +1,7 @@
 task deduped_Metrics {
 
     File ref_dir
-    
+    File bed
 	String SENTIEON_INSTALL_DIR
 	String sample
 	String fasta

@@ -1,23 +1,21 @@
-# WGS-germline Small Variants Quality Control Pipeline（Start from FASTQ files）
+# Quality control of germline variants calling results using a Chinese Quartet family
 
 > Author： Run Luyao
 >
 > E-mail：18110700050@fudan.edu.cn
 >
-> Git: http://choppy.3steps.cn/renluyao/WGS_germline_datapotal.git
+> Git: http://47.103.223.233/renluyao/quartet_dna_quality_control_big_pipeline.git
 >
-> Last Updates: 2020/11/25
+> Last Updates: 2021/7/5
 
-## 安装指南
+## Install
 
 ```
-# 激活choppy环境
 open-choppy-env
-# 安装app
-choppy install renluyao/WGS_germline_datapotal
+choppy install renluyao/quartet_dna_quality_control_big_pipeline
 ```
 
-## App概述——中华家系1号标准物质介绍
+## Introduction of Chinese Quartet DNA reference materials
 
 建立高通量全基因组测序的生物计量和质量控制关键技术体系，是保障测序数据跨技术平台、跨实验室可比较、相关研究结果可重复、数据可共享的重要关键共性技术。建立国家基因组标准物质和基准数据集，突破基因组学的生物计量技术，是将测序技术转化成临床应用的重要环节与必经之路，目前国际上尚属空白。中国计量科学研究院与复旦大学、复旦大学泰州健康科学研究院共同研制了人源中华家系1号基因组标准物质（**Quartet，一套4个样本，编号分别为LCL5，LCL6，LCL7，LCL8，其中LCL5和LCL6为同卵双胞胎女儿，LCL7为父亲，LCL8为母亲**），以及相应的全基因组测序序列基准数据集（“量值”），为衡量基因序列检测准确与否提供一把“标尺”，成为保障基因测序数据可靠性的国家基准。人源中华家系1号基因组标准物质来源于泰州队列同卵双生双胞胎家庭，从遗传结构上体现了我国南北交界的人群结构特征，同时家系的设计也为“量值”的确定提供了遗传学依据。
 
@@ -31,13 +29,11 @@ choppy install renluyao/WGS_germline_datapotal
 
 ![workflow](./pictures/workflow.png)
 
-![](./pictures/table.png)
-
-### 1. 原始数据质量控制
+### 1. Pre-alignment QC
 
 #### [Fastqc](<https://www.bioinformatics.babraham.ac.uk/projects/fastqc/>) v0.11.5
 
-FastQC是一个常用的测序原始数据的质控软件，主要包括12个模块，具体请参考[Fastqc模块详情](<https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/>)。
+[FastQC](<https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/>) is used to investigate the quality of fastq files
 
 ```bash
 fastqc -t <threads> -o <output_directory> <fastq_file>
@@ -45,63 +41,48 @@ fastqc -t <threads> -o <output_directory> <fastq_file>
 
 #### [Fastq Screen](<https://www.bioinformatics.babraham.ac.uk/projects/fastq_screen/>) 0.12.0
 
-Fastq Screen是检测测序原始数据中是否引⼊入其他物种，或是接头引物等污染，⽐比如，如果测序样本
-是⼈人类，我们期望99%以上的reads匹配到⼈人类基因组，10%左右的reads匹配到与⼈人类基因组同源性
-较⾼高的⼩小⿏鼠上。如果有过多的reads匹配到Ecoli或者Yeast，要考虑是否在培养细胞的时候细胞系被污
-染，或者建库时⽂文库被污染。
+Fastq Screen is used to inspect whether the library were contaminated. For example, we expected 99% reads aligned to human genome, 10% reads aligned to mouse genome, which is partly homologous to human genome. If too many reads are aligned to E.Coli or Yeast, libraries or cell lines are probably comtminated.
 
 ```bash
 fastq_screen --aligner <aligner> --conf <config_file> --top <number_of_reads> --threads <threads> <fastq_file>
 ```
 
-`--conf` conifg 文件主要输入了多个物种的fasta文件地址，可根据自己自己的需求下载其他物种的fasta文件加入分析
-
-`--top`一般不需要对整个fastq文件进行检索，取前100000行
-
-### 2. 比对后数据质量控制
+### 2. Post-alignment QC
 
 #### [Qualimap](<http://qualimap.bioinfo.cipf.es/>) 2.0.0
 
-Qualimap是一个比对指控软件，包含Picard的MarkDuplicates的结果和sentieon中metrics的质控结果。
+Qualimap is used to check the quality od bam files
 
 ```bash
 qualimap bamqc -bam <bam_file> -outformat PDF:HTML -nt <threads> -outdir <output_directory> --java-mem-size=32G 
 ```
 
-### 3. 突变检出数据质量控制
-
-突变质量控制的流程如下
+### 3. Variants Calling QC
 
 ![performance](./pictures/performance.png)
 
-#### 3.1 根据标准数据集的数据质量控制
+#### 3.1 Performance assessment based on reference datasets
 
 #### [Hap.py](<https://github.com/Illumina/hap.py>) v0.3.9
-
-hap.py是将被检测vcf结果与benchmarking对比，计算precision和recall的软件，它考虑了vcf中[突变表示形式的多样性](<https://genome.sph.umich.edu/wiki/Variant_Normalization>)，进行了归一化。
 
 ```bash
 hap.py <truth_vcf> <query_vcf> -f <bed_file> --threads <threads> -o <output_filename>
 ```
 
-#### 3.2 根据Quartet四口之家遗传规律的质量控制
+#### 3.2 Performance assessment based on Quartet genetic built-in truth
 
-#### Reproducibility (in-house python script)
+#### [Mendelian Concordance Rate](https://github.com/sbg/VBT-TrioAnalysis) (vbt v1.1)
 
-标准数据集是根据我们整合多个平台方法，过滤不可重复检测、不符合孟德尔遗传规律的假阳性的突变。它可以评估数据产生和分析方法的相对好坏，但是具有一定的局限性，因为它排除掉了很多难测的基因组区域。我们可以通过比较同卵双胞胎突变检测的一致性对全基因组范围进行评估。
-
-#### [Mendelian Concordance Ratio](https://github.com/sbg/VBT-TrioAnalysis) (vbt v1.1)
-
-我们首先将四口之家拆分成两个三口之家进行孟德尔遗传的分析。当一个突变符合姐妹一致，且与父母符合孟德尔遗传规律，则认为是符合Quartet四口之家的孟德尔遗传规律。孟德尔符合率是指四个标准检测出的所有突变中满足孟德尔遗传规律的比例。
+We splited the Quartet family to two trios (F7, M8, D5 and F7, M8, D6) and then do the Mendelian analysis. A Quartet Mendelian concordant variant is the same between the twins (D5 and D6) , and follow the Mendelian concordant between parents (F7 and M8). Mendelian concordance rate is the Mendelian concordance variant divided by total detected variants in a Quartet family.
 
 ```bash
 vbt mendelian -ref <fasta_file> -mother <family_merged_vcf> -father <family_merged_vcf> -child <family_merged_vcf> -pedigree <ped_file> -outDir <output_directory> -out-prefix <output_directory_prefix> --output-violation-regions -thread-count <threads>
 ```
 
-## App输入文件
+## Input files
 
 ```bash
-choppy samples WGS_germline_datapotal-latest --output samples
+choppy samples renluyao/quartet_dna_quality_control_big_pipeline-latest --output samples
 ```
 
 ####Samples文件的输入包括
@@ -187,12 +168,6 @@ Quartet家系结果的平均值和SD值，用于报告第一页的展示
 quartet_indel_aver-std.txt
 
 quartet_snv_aver-std.txt
-
-#### 3. D5_D6.WDL
-
-如果用户没有完整输入一组家庭，但有同时有D5和D6的信息，我们可以计算同卵双胞胎检测出的突变一致性，但是这部分输出暂不整合至报告中。
-
-${project}.sister.txt
 
 ## 结果展示与解读
 

@@ -1,6 +1,7 @@
 task qualimap {
 	File bam
 	File bai
+	File bed
 	String bamname = basename(bam,".bam")
 	String docker
 	String cluster_config
