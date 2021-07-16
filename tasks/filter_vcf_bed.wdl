@@ -32,6 +32,6 @@
 	}
 	output {
 		File filtered_vcf = "${project}.filtered.vcf"
-		File? filtered_bed = "benchmark_region_query_bed.bed"
+		Array[File] filtered_bed = glob("benchmark_region_query_bed.bed")
 	}
 }

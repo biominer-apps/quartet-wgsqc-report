@@ -1,9 +1,9 @@
 task benchmark {
-	File vcf
+	File filtered_vcf
 	File benchmarking_dir
 	File ref_dir
 	File? qc_bed
-	String sample = basename(vcf,".hc.vcf")
+	String sample = basename(filtered_vcf,".filtered.vcf")
 	String fasta
 	String docker
 	String cluster_config
@@ -20,7 +20,7 @@ task benchmark {
 
 		export HGREF=/cromwell_root/tmp/reference_data/GRCh38.d1.vd1.fa
 
-		/opt/rtg-tools/dist/rtg-tools-3.10.1-4d58ead/rtg bgzip ${vcf} -c > ${sample}.rtg.vcf.gz
+		/opt/rtg-tools/dist/rtg-tools-3.10.1-4d58ead/rtg bgzip ${filtered_vcf} -c > ${sample}.rtg.vcf.gz
 		/opt/rtg-tools/dist/rtg-tools-3.10.1-4d58ead/rtg index -f vcf ${sample}.rtg.vcf.gz
 
 		if [ ${qc_bed} ];then

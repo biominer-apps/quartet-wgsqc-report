@@ -764,7 +764,7 @@ workflow {{ project_name }} {
 
 		call benchmark.benchmark as benchmark_D5_vcf {
 			input:
-			vcf=filter_vcf_bed_D5_vcf.filtered_vcf,
+			filtered_vcf=filter_vcf_bed_D5_vcf.filtered_vcf,
 			benchmarking_dir=benchmarking_dir,
 			ref_dir=ref_dir,
 			qc_bed=filter_vcf_bed_D5.filtered_bed,
@@ -787,7 +787,7 @@ workflow {{ project_name }} {
 
 		call benchmark.benchmark as benchmark_D6_vcf {
 			input:
-			vcf=filter_vcf_bed_D6.filtered_vcf,
+			filtered_vcf=filter_vcf_bed_D6.filtered_vcf,
 			benchmarking_dir=benchmarking_dir,
 			ref_dir=ref_dir,
 			qc_bed=filter_vcf_bed_D6.filtered_bed,
@@ -810,7 +810,7 @@ workflow {{ project_name }} {
 
 		call benchmark.benchmark as benchmark_F7_vcf {
 			input:
-			vcf=filter_vcf_bed_F7_vcf.filtered_vcf,
+			filtered_vcf=filter_vcf_bed_F7_vcf.filtered_vcf,
 			benchmarking_dir=benchmarking_dir,
 			ref_dir=ref_dir,
 			qc_bed=filter_vcf_bed_F7.filtered_bed,
@@ -833,7 +833,7 @@ workflow {{ project_name }} {
 
 		call benchmark.benchmark as benchmark_M8_vcf {
 			input:
-			vcf=filter_vcf_bed_M8_vcf.filtered_vcf,
+			filtered_vcf=filter_vcf_bed_M8_vcf.filtered_vcf,
 			benchmarking_dir=benchmarking_dir,
 			ref_dir=ref_dir,
 			qc_bed=filter_vcf_bed_M8.filtered_bed,
