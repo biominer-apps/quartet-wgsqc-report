@@ -725,6 +725,42 @@ workflow {{ project_name }} {
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size
 		}
+
+		call merge_family.merge_family as merge_family {
+			input:
+			D5_vcf=benchmark_D5.rtg_vcf,
+			D6_vcf=benchmark_D6.rtg_vcf,
+			F7_vcf=benchmark_F7.rtg_vcf,
+			M8_vcf=benchmark_M8.rtg_vcf,
+			D5_vcf_tbi=benchmark_D5.rtg_vcf_index,
+			D6_vcf_tbi=benchmark_D6.rtg_vcf_index,
+			F7_vcf_tbi=benchmark_F7.rtg_vcf_index,
+			M8_vcf_tbi=benchmark_M8.rtg_vcf_index,
+			project=project,
+			docker=DIYdocker,
+			cluster_config=SMALLcluster_config,
+			disk_size=disk_size,
+		}
+
+		call mendelian.mendelian as mendelian {
+			input:
+			family_vcf=merge_family.family_vcf,
+			ref_dir=ref_dir,
+			fasta=fasta,
+			docker=MENDELIANdocker,
+			cluster_config=BIGcluster_config,
+			disk_size=disk_size		
+		}
+
+		call merge_mendelian.merge_mendelian as merge_mendelian {
+			input:
+			D5_trio_vcf=mendelian.D5_trio_vcf,
+			D6_trio_vcf=mendelian.D6_trio_vcf,
+			family_vcf=merge_family.family_vcf,
+			docker=DIYdocker,
+			cluster_config=SMALLcluster_config,
+			disk_size=disk_size
+		}
 	}
 
 	if (vcf_D5!= "") {
@@ -810,7 +846,7 @@ workflow {{ project_name }} {
 
 	    Array[File] benchmark_summary_hap = [benchmark_D5_vcf.summary, benchmark_D6_vcf.summary, benchmark_F7_vcf.summary, benchmark_M8_vcf.summary]
 
-		call multiqc.multiqc as multiqc_small {
+		call multiqc.multiqc as multiqc_vcf {
 			input:
 			read1_zip="",
 			read2_zip="",
@@ -823,7 +859,7 @@ workflow {{ project_name }} {
 			disk_size=disk_size
 		}
 
-		call extract_tables.extract_tables as extract_tables_small {
+		call extract_tables.extract_tables as extract_tables_vcf {
 			input:
 			quality_yield_summary="",
 			wgs_metrics_summary="",
@@ -831,49 +867,49 @@ workflow {{ project_name }} {
 			is_metrics_summary="",
 			fastqc="",
 			fastqscreen="",
-			hap=multiqc_small.hap,
+			hap=multiqc_vcf.hap,
 			project=project,
 			docker=DIYdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size
 		}
-	}
 
-	call merge_family.merge_family as merge_family {
-		input:
-		D5_vcf=benchmark_D5.rtg_vcf,
-		D6_vcf=benchmark_D6.rtg_vcf,
-		F7_vcf=benchmark_F7.rtg_vcf,
-		M8_vcf=benchmark_M8.rtg_vcf,
-		D5_vcf_tbi=benchmark_D5.rtg_vcf_index,
-		D6_vcf_tbi=benchmark_D6.rtg_vcf_index,
-		F7_vcf_tbi=benchmark_F7.rtg_vcf_index,
-		M8_vcf_tbi=benchmark_M8.rtg_vcf_index,
-		project=project,
-		docker=DIYdocker,
-		cluster_config=SMALLcluster_config,
-		disk_size=disk_size,
-	}
+		call merge_family.merge_family as merge_family_vcf {
+			input:
+			D5_vcf=benchmark_D5_vcf.rtg_vcf,
+			D6_vcf=benchmark_D6_vcf.rtg_vcf,
+			F7_vcf=benchmark_F7_vcf.rtg_vcf,
+			M8_vcf=benchmark_M8_vcf.rtg_vcf,
+			D5_vcf_tbi=benchmark_D5_vcf.rtg_vcf_index,
+			D6_vcf_tbi=benchmark_D6_vcf.rtg_vcf_index,
+			F7_vcf_tbi=benchmark_F7_vcf.rtg_vcf_index,
+			M8_vcf_tbi=benchmark_M8_vcf.rtg_vcf_index,
+			project=project,
+			docker=DIYdocker,
+			cluster_config=SMALLcluster_config,
+			disk_size=disk_size,
+		}
 
-	call mendelian.mendelian as mendelian {
-		input:
-		family_vcf=merge_family.family_vcf,
-		ref_dir=ref_dir,
-		fasta=fasta,
-		docker=MENDELIANdocker,
-		cluster_config=BIGcluster_config,
-		disk_size=disk_size		
-	}
+		call mendelian.mendelian as mendelian_vcf {
+			input:
+			family_vcf=merge_family_vcf.family_vcf,
+			ref_dir=ref_dir,
+			fasta=fasta,
+			docker=MENDELIANdocker,
+			cluster_config=BIGcluster_config,
+			disk_size=disk_size		
+		}
 
-	call merge_mendelian.merge_mendelian as merge_mendelian {
-		input:
-		D5_trio_vcf=mendelian.D5_trio_vcf,
-		D6_trio_vcf=mendelian.D6_trio_vcf,
-		family_vcf=merge_family.family_vcf,
-		docker=DIYdocker,
-		cluster_config=SMALLcluster_config,
-		disk_size=disk_size
-	}	
+		call merge_mendelian.merge_mendelian as merge_mendelian_vcf {
+			input:
+			D5_trio_vcf=mendelian_vcf.D5_trio_vcf,
+			D6_trio_vcf=mendelian_vcf.D6_trio_vcf,
+			family_vcf=merge_family_vcf.family_vcf,
+			docker=DIYdocker,
+			cluster_config=SMALLcluster_config,
+			disk_size=disk_size
+		}
+	}
 }
 
 
