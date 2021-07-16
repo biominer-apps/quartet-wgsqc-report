@@ -19,7 +19,7 @@ import "./tasks/merge_family.wdl" as merge_family
 import "./tasks/filter_vcf_bed.wdl" as filter_vcf_bed
 
 
-workflow project_name {
+workflow {{ project_name }} {
 
 	File? fastq_1_D5
 	File? fastq_1_D6
