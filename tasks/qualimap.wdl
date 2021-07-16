@@ -1,13 +1,11 @@
 task qualimap {
 	File bam
 	File bai
-	File bed
+	File? bed
 	String bamname = basename(bam,".bam")
 	String docker
 	String cluster_config
 	String disk_size
-
-	File? bed
 
 	command <<<
 		set -o pipefail
