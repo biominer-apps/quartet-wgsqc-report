@@ -16,7 +16,7 @@ import "./tasks/quartet_mendelian.wdl" as quartet_mendelian
 import "./tasks/fastqc.wdl" as fastqc
 import "./tasks/fastqscreen.wdl" as fastqscreen
 import "./tasks/merge_family.wdl" as merge_family
-import "./tasks/filter_vcf_bed.wdl" as filter_vcf_bed
+import "./tasks/filter_vcf.wdl" as filter_vcf
 
 
 workflow {{ project_name }} {
@@ -35,8 +35,6 @@ workflow {{ project_name }} {
 	File? vcf_D6
 	File? vcf_F7
 	File? vcf_M8
-
-	File? bed
 
 	String SENTIEON_INSTALL_DIR
 	String SENTIEON_LICENSE
@@ -60,7 +58,6 @@ workflow {{ project_name }} {
 	File screen_ref_dir
 	File fastq_screen_conf
 	File benchmarking_dir
-	File benchmark_region
 
 	String project
 
@@ -119,7 +116,6 @@ workflow {{ project_name }} {
 
 		call qualimap.qualimap as qualimap_D5 {
 			input:
-			bed=bed,
 			bam=Dedup_D5.Dedup_bam,
 			bai=Dedup_D5.Dedup_bam_index,
 			docker=QUALIMAPdocker,
@@ -131,7 +127,6 @@ workflow {{ project_name }} {
 			input:
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			fasta=fasta,
-			bed=bed,
 			ref_dir=ref_dir,
 			Dedup_bam=Dedup_D5.Dedup_bam,
 			Dedup_bam_index=Dedup_D5.Dedup_bam_index,
@@ -198,11 +193,9 @@ workflow {{ project_name }} {
 			cluster_config=BIGcluster_config
 		}
 
-		call filter_vcf_bed.filter_vcf_bed as filter_vcf_bed_D5 {
+		call filter_vcf.filter_vcf as filter_vcf_D5 {
 			input:
 			vcf=Haplotyper_D5.vcf,
-			bed=bed,
-			benchmark_region=benchmark_region,
 			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
@@ -211,10 +204,9 @@ workflow {{ project_name }} {
 
 		call benchmark.benchmark as benchmark_D5 {
 			input:
-			filtered_vcf=filter_vcf_bed_D5.filtered_vcf,
+			filtered_vcf=filter_vcf_D5.filtered_vcf,
 			benchmarking_dir=benchmarking_dir,
 			ref_dir=ref_dir,
-			qc_bed=filter_vcf_bed_D5.filtered_bed,
 			fasta=fasta,
 			docker=BENCHMARKdocker,
 			cluster_config=BIGcluster_config,
@@ -270,7 +262,6 @@ workflow {{ project_name }} {
 
 		call qualimap.qualimap as qualimap_D6 {
 			input:
-			bed=bed,
 			bam=Dedup_D6.Dedup_bam,
 			bai=Dedup_D6.Dedup_bam_index,
 			docker=QUALIMAPdocker,
@@ -282,7 +273,6 @@ workflow {{ project_name }} {
 			input:
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			fasta=fasta,
-			bed=bed,
 			ref_dir=ref_dir,
 			Dedup_bam=Dedup_D6.Dedup_bam,
 			Dedup_bam_index=Dedup_D6.Dedup_bam_index,
@@ -349,11 +339,9 @@ workflow {{ project_name }} {
 			cluster_config=BIGcluster_config
 		}
 
-		call filter_vcf_bed.filter_vcf_bed as filter_vcf_bed_D6 {
+		call filter_vcf.filter_vcf as filter_vcf_D6 {
 			input:
 			vcf=Haplotyper_D6.vcf,
-			bed=bed,
-			benchmark_region=benchmark_region,
 			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
@@ -362,10 +350,9 @@ workflow {{ project_name }} {
 
 		call benchmark.benchmark as benchmark_D6 {
 			input:
-			filtered_vcf=filter_vcf_bed_D6.filtered_vcf,
+			filtered_vcf=filter_vcf_D6.filtered_vcf,
 			benchmarking_dir=benchmarking_dir,
 			ref_dir=ref_dir,
-			qc_bed=filter_vcf_bed_D6.filtered_bed,
 			fasta=fasta,
 			docker=BENCHMARKdocker,
 			cluster_config=BIGcluster_config,
@@ -421,7 +408,6 @@ workflow {{ project_name }} {
 
 		call qualimap.qualimap as qualimap_F7 {
 			input:
-			bed=bed,
 			bam=Dedup_F7.Dedup_bam,
 			bai=Dedup_F7.Dedup_bam_index,
 			docker=QUALIMAPdocker,
@@ -434,7 +420,6 @@ workflow {{ project_name }} {
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			fasta=fasta,
 			ref_dir=ref_dir,
-			bed=bed,
 			Dedup_bam=Dedup_F7.Dedup_bam,
 			Dedup_bam_index=Dedup_F7.Dedup_bam_index,
 			sample="F7",
@@ -500,11 +485,9 @@ workflow {{ project_name }} {
 			cluster_config=BIGcluster_config
 		}
 
-		call filter_vcf_bed.filter_vcf_bed as filter_vcf_bed_F7 {
+		call filter_vcf.filter_vcf as filter_vcf_F7 {
 			input:
 			vcf=Haplotyper_F7.vcf,
-			bed=bed,
-			benchmark_region=benchmark_region,
 			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
@@ -513,10 +496,9 @@ workflow {{ project_name }} {
 
 		call benchmark.benchmark as benchmark_F7 {
 			input:
-			filtered_vcf=filter_vcf_bed_F7.filtered_vcf,
+			filtered_vcf=filter_vcf_F7.filtered_vcf,
 			benchmarking_dir=benchmarking_dir,
 			ref_dir=ref_dir,
-			qc_bed=filter_vcf_bed_F7.filtered_bed,
 			fasta=fasta,
 			docker=BENCHMARKdocker,
 			cluster_config=BIGcluster_config,
@@ -572,7 +554,6 @@ workflow {{ project_name }} {
 
 		call qualimap.qualimap as qualimap_M8 {
 			input:
-			bed=bed,
 			bam=Dedup_M8.Dedup_bam,
 			bai=Dedup_M8.Dedup_bam_index,
 			docker=QUALIMAPdocker,
@@ -585,7 +566,6 @@ workflow {{ project_name }} {
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			fasta=fasta,
 			ref_dir=ref_dir,
-			bed=bed,
 			Dedup_bam=Dedup_M8.Dedup_bam,
 			Dedup_bam_index=Dedup_M8.Dedup_bam_index,
 			sample="M8",
@@ -651,11 +631,9 @@ workflow {{ project_name }} {
 			cluster_config=BIGcluster_config
 		}
 
-		call filter_vcf_bed.filter_vcf_bed as filter_vcf_bed_M8 {
+		call filter_vcf.filter_vcf as filter_vcf_M8 {
 			input:
 			vcf=Haplotyper_M8.vcf,
-			bed=bed,
-			benchmark_region=benchmark_region,
 			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
@@ -664,10 +642,9 @@ workflow {{ project_name }} {
 
 		call benchmark.benchmark as benchmark_M8 {
 			input:
-			filtered_vcf=filter_vcf_bed_M8.filtered_vcf,
+			filtered_vcf=filter_vcf_M8.filtered_vcf,
 			benchmarking_dir=benchmarking_dir,
 			ref_dir=ref_dir,
-			qc_bed=filter_vcf_bed_M8.filtered_bed,
 			fasta=fasta,
 			docker=BENCHMARKdocker,
 			cluster_config=BIGcluster_config,
@@ -751,11 +728,9 @@ workflow {{ project_name }} {
 	}
 
 	if (vcf_D5!= "") {
-		call filter_vcf_bed.filter_vcf_bed as filter_vcf_bed_D5_vcf {
+		call filter_vcf.filter_vcf as filter_vcf_D5_vcf {
 			input:
 			vcf=vcf_D5,
-			bed=bed,
-			benchmark_region=benchmark_region,
 			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
@@ -764,21 +739,18 @@ workflow {{ project_name }} {
 
 		call benchmark.benchmark as benchmark_D5_vcf {
 			input:
-			filtered_vcf=filter_vcf_bed_D5_vcf.filtered_vcf,
+			filtered_vcf=filter_vcf_D5_vcf.filtered_vcf,
 			benchmarking_dir=benchmarking_dir,
 			ref_dir=ref_dir,
-			qc_bed=filter_vcf_bed_D5.filtered_bed,
 			fasta=fasta,
 			docker=BENCHMARKdocker,
 			cluster_config=BIGcluster_config,
 			disk_size=disk_size
 		}
 
-		call filter_vcf_bed.filter_vcf_bed as filter_vcf_bed_D6_vcf {
+		call filter_vcf.filter_vcf as filter_vcf_D6_vcf {
 			input:
 			vcf=vcf_D6,
-			bed=bed,
-			benchmark_region=benchmark_region,
 			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
@@ -787,21 +759,18 @@ workflow {{ project_name }} {
 
 		call benchmark.benchmark as benchmark_D6_vcf {
 			input:
-			filtered_vcf=filter_vcf_bed_D6.filtered_vcf,
+			filtered_vcf=filter_vcf_D6_vcf.filtered_vcf,
 			benchmarking_dir=benchmarking_dir,
 			ref_dir=ref_dir,
-			qc_bed=filter_vcf_bed_D6.filtered_bed,
 			fasta=fasta,
 			docker=BENCHMARKdocker,
 			cluster_config=BIGcluster_config,
 			disk_size=disk_size
 		}
 
-		call filter_vcf_bed.filter_vcf_bed as filter_vcf_bed_F7_vcf {
+		call filter_vcf.filter_vcf as filter_vcf_F7_vcf {
 			input:
 			vcf=vcf_F7,
-			bed=bed,
-			benchmark_region=benchmark_region,
 			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
@@ -810,21 +779,18 @@ workflow {{ project_name }} {
 
 		call benchmark.benchmark as benchmark_F7_vcf {
 			input:
-			filtered_vcf=filter_vcf_bed_F7_vcf.filtered_vcf,
+			filtered_vcf=filter_vcf_F7_vcf.filtered_vcf,
 			benchmarking_dir=benchmarking_dir,
 			ref_dir=ref_dir,
-			qc_bed=filter_vcf_bed_F7.filtered_bed,
 			fasta=fasta,
 			docker=BENCHMARKdocker,
 			cluster_config=BIGcluster_config,
 			disk_size=disk_size
 		}
 
-		call filter_vcf_bed.filter_vcf_bed as filter_vcf_bed_M8_vcf {
+		call filter_vcf.filter_vcf as filter_vcf_M8_vcf {
 			input:
 			vcf=vcf_M8,
-			bed=bed,
-			benchmark_region=benchmark_region,
 			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
@@ -833,10 +799,9 @@ workflow {{ project_name }} {
 
 		call benchmark.benchmark as benchmark_M8_vcf {
 			input:
-			filtered_vcf=filter_vcf_bed_M8_vcf.filtered_vcf,
+			filtered_vcf=filter_vcf_M8_vcf.filtered_vcf,
 			benchmarking_dir=benchmarking_dir,
 			ref_dir=ref_dir,
-			qc_bed=filter_vcf_bed_M8.filtered_bed,
 			fasta=fasta,
 			docker=BENCHMARKdocker,
 			cluster_config=BIGcluster_config,

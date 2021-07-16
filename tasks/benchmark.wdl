@@ -2,7 +2,6 @@ task benchmark {
 	File filtered_vcf
 	File benchmarking_dir
 	File ref_dir
-	File? qc_bed
 	String sample = basename(filtered_vcf,".filtered.vcf")
 	String fasta
 	String docker
@@ -23,29 +22,16 @@ task benchmark {
 		/opt/rtg-tools/dist/rtg-tools-3.10.1-4d58ead/rtg bgzip ${filtered_vcf} -c > ${sample}.rtg.vcf.gz
 		/opt/rtg-tools/dist/rtg-tools-3.10.1-4d58ead/rtg index -f vcf ${sample}.rtg.vcf.gz
 
-		if [ ${qc_bed} ];then
-			if [[ ${sample} =~ "LCL5" ]];then
-				/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL5.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f ${qc_bed}--threads $nt -o ${sample} -r ${ref_dir}/${fasta}
-		    elif [[ ${sample} =~ "LCL6" ]]; then
-		    	/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL6.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f ${qc_bed} --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
-	        elif [[ ${sample} =~ "LCL7" ]]; then
-	        	/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL7.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f ${qc_bed} --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
-		    elif [[ ${sample} =~ "LCL8" ]]; then
-				/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL8.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f ${qc_bed} --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
-	        else
-	        	echo "only for quartet samples"
-	        fi
+		if [[ ${sample} =~ "LCL5" ]];then
+			/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL5.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f /cromwell_root/tmp/reference_datasets_v202103/Quartet.high.confidence.region.v202103.bed --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
+		elif [[ ${sample} =~ "LCL6" ]]; then
+		    /opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL6.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f /cromwell_root/tmp/reference_datasets_v202103/Quartet.high.confidence.region.v202103.bed --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
+	    elif [[ ${sample} =~ "LCL7" ]]; then
+	        /opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL7.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f /cromwell_root/tmp/reference_datasets_v202103/Quartet.high.confidence.region.v202103.bed --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
+		elif [[ ${sample} =~ "LCL8" ]]; then
+			/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL8.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f /cromwell_root/tmp/reference_datasets_v202103/Quartet.high.confidence.region.v202103.bed --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
 	    else
-			if [[ ${sample} =~ "LCL5" ]];then
-				/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL5.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f /cromwell_root/tmp/reference_datasets_v202103/Quartet.high.confidence.region.v202103.bed --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
-		    elif [[ ${sample} =~ "LCL6" ]]; then
-		    	/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL6.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f /cromwell_root/tmp/reference_datasets_v202103/Quartet.high.confidence.region.v202103.bed --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
-	        elif [[ ${sample} =~ "LCL7" ]]; then
-	        	/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL7.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f /cromwell_root/tmp/reference_datasets_v202103/Quartet.high.confidence.region.v202103.bed --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
-		    elif [[ ${sample} =~ "LCL8" ]]; then
-				/opt/hap.py/bin/hap.py /cromwell_root/tmp/reference_datasets_v202103/LCL8.high.confidence.calls.vcf ${sample}.rtg.vcf.gz -f /cromwell_root/tmp/reference_datasets_v202103/Quartet.high.confidence.region.v202103.bed --threads $nt -o ${sample} -r ${ref_dir}/${fasta}
-	        else
-	        	echo "only for quartet samples"	    	
+	        echo "only for quartet samples"
 	    fi
 	>>>
 

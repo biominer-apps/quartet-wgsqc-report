@@ -1,7 +1,6 @@
 task qualimap {
 	File bam
 	File bai
-	File? bed
 	String bamname = basename(bam,".bam")
 	String docker
 	String cluster_config
@@ -12,12 +11,7 @@ task qualimap {
 		set -e
 		nt=$(nproc)
 
-		if [ ${bed} ]; then
-			awk 'BEGIN{OFS="\t"}{sub("\r","",$3);print $1,$2,$3,"",0,"."}' ${bed} > new.bed
-			/opt/qualimap/qualimap bamqc -bam ${bam} -gff new.bed -outformat PDF:HTML -nt $nt -outdir ${bamname} --java-mem-size=60G
-		else
-			/opt/qualimap/qualimap bamqc -bam ${bam} -outformat PDF:HTML -nt $nt -outdir ${bamname} --java-mem-size=60G
-		fi
+		/opt/qualimap/qualimap bamqc -bam ${bam} -outformat PDF:HTML -nt $nt -outdir ${bamname} --java-mem-size=60G
 
 		tar -zcvf ${bamname}_qualimap.zip ${bamname}
 	>>>
