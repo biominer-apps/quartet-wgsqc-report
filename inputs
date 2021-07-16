@@ -28,7 +28,7 @@
   "{{ project_name }}.fastq_1_D6": "{{ fastq_1_D6 }}",
   "{{ project_name }}.fastq_1_F7": "{{ fastq_1_F7 }}",
   "{{ project_name }}.SENTIEONdocker": "{{ SENTIEONdocker }}",
-  "{{ project_name }}.QUALIMAPdocker": "{{ QUALIMAPdocke }}",
+  "{{ project_name }}.QUALIMAPdocker": "{{ QUALIMAPdocker }}",
   "{{ project_name }}.vcf_D5": "{{ vcf_D5 }}",
   "{{ project_name }}.benchmark_region": "{{ benchmark_region }}",
   "{{ project_name }}.db_mills": "{{ db_mills }}",
