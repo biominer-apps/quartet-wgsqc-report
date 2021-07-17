@@ -8,8 +8,10 @@ import "./tasks/BQSR.wdl" as BQSR
 import "./tasks/Haplotyper.wdl" as Haplotyper
 import "./tasks/benchmark.wdl" as benchmark
 import "./tasks/multiqc.wdl" as multiqc
+import "./tasks/multiqc_hap.wdl" as multiqc_hap
 import "./tasks/merge_sentieon_metrics.wdl" as merge_sentieon_metrics
 import "./tasks/extract_tables.wdl" as extract_tables
+import "./tasks/extract_tables_vcf.wdl" as extract_tables_vcf
 import "./tasks/mendelian.wdl" as mendelian
 import "./tasks/merge_mendelian.wdl" as merge_mendelian
 import "./tasks/quartet_mendelian.wdl" as quartet_mendelian
@@ -19,7 +21,7 @@ import "./tasks/merge_family.wdl" as merge_family
 import "./tasks/filter_vcf.wdl" as filter_vcf
 
 
-workflow {{ project_name }} {
+workflow project_name {
 
 	File? fastq_1_D5
 	File? fastq_1_D6
@@ -711,7 +713,7 @@ workflow {{ project_name }} {
 			disk_size=disk_size	
 		}
 
-		call extract_tables.extract_tables as extract_tables_big {
+		call extract_tables.extract_tables as extract_tables {
 			input:
 			quality_yield_summary=merge_sentieon_metrics.quality_yield_summary,
 			wgs_metrics_summary=merge_sentieon_metrics.wgs_metrics_summary,
@@ -846,28 +848,17 @@ workflow {{ project_name }} {
 
 	    Array[File] benchmark_summary_hap = [benchmark_D5_vcf.summary, benchmark_D6_vcf.summary, benchmark_F7_vcf.summary, benchmark_M8_vcf.summary]
 
-		call multiqc.multiqc as multiqc_vcf {
+		call multiqc_hap.multiqc_hap as multiqc_hap {
 			input:
-			read1_zip="",
-			read2_zip="",
-			txt1="",
-			txt2="",
-			zip="",
 			summary=benchmark_summary_hap,
 			docker=MULTIQCdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size
 		}
 
-		call extract_tables.extract_tables as extract_tables_vcf {
+		call extract_tables_vcf.extract_tables_vcf as extract_tables_vcf {
 			input:
-			quality_yield_summary="",
-			wgs_metrics_summary="",
-			aln_metrics_summary="",
-			is_metrics_summary="",
-			fastqc="",
-			fastqscreen="",
-			hap=multiqc_vcf.hap,
+			hap=multiqc_hap.hap,
 			project=project,
 			docker=DIYdocker,
 			cluster_config=SMALLcluster_config,

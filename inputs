@@ -16,7 +16,6 @@
   "{{ project_name }}.fastq_1_M8": "{{ fastq_1_M8 }}",
   "{{ project_name }}.SMALLcluster_config": "{{ SMALLcluster_config }}",
   "{{ project_name }}.screen_ref_dir": "{{ screen_ref_dir }}",
-  "{{ project_name }}.bed": "{{ bed }}",
   "{{ project_name }}.fastq_1_D5": "{{ fastq_1_D5 }}",
   "{{ project_name }}.dbmills_dir": "{{ dbmills_dir }}",
   "{{ project_name }}.BIGcluster_config": "{{ BIGcluster_config }}",
