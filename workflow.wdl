@@ -198,7 +198,6 @@ workflow {{ project_name }} {
 		call filter_vcf.filter_vcf as filter_vcf_D5 {
 			input:
 			vcf=Haplotyper_D5.vcf,
-			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size			
@@ -344,7 +343,6 @@ workflow {{ project_name }} {
 		call filter_vcf.filter_vcf as filter_vcf_D6 {
 			input:
 			vcf=Haplotyper_D6.vcf,
-			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size			
@@ -490,7 +488,6 @@ workflow {{ project_name }} {
 		call filter_vcf.filter_vcf as filter_vcf_F7 {
 			input:
 			vcf=Haplotyper_F7.vcf,
-			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size			
@@ -636,7 +633,6 @@ workflow {{ project_name }} {
 		call filter_vcf.filter_vcf as filter_vcf_M8 {
 			input:
 			vcf=Haplotyper_M8.vcf,
-			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size			
@@ -769,7 +765,6 @@ workflow {{ project_name }} {
 		call filter_vcf.filter_vcf as filter_vcf_D5_vcf {
 			input:
 			vcf=vcf_D5,
-			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size			
@@ -789,7 +784,6 @@ workflow {{ project_name }} {
 		call filter_vcf.filter_vcf as filter_vcf_D6_vcf {
 			input:
 			vcf=vcf_D6,
-			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size			
@@ -809,7 +803,6 @@ workflow {{ project_name }} {
 		call filter_vcf.filter_vcf as filter_vcf_F7_vcf {
 			input:
 			vcf=vcf_F7,
-			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size			
@@ -829,7 +822,6 @@ workflow {{ project_name }} {
 		call filter_vcf.filter_vcf as filter_vcf_M8_vcf {
 			input:
 			vcf=vcf_M8,
-			project=project,
 			docker=BEDTOOLSdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size			
