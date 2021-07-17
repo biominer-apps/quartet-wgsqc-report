@@ -735,7 +735,7 @@ workflow {{ project_name }} {
 			F7_vcf_tbi=benchmark_F7.rtg_vcf_index,
 			M8_vcf_tbi=benchmark_M8.rtg_vcf_index,
 			project=project,
-			docker=DIYdocker,
+			docker=BENCHMARKdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size,
 		}
@@ -868,7 +868,7 @@ workflow {{ project_name }} {
 			F7_vcf_tbi=benchmark_F7_vcf.rtg_vcf_index,
 			M8_vcf_tbi=benchmark_M8_vcf.rtg_vcf_index,
 			project=project,
-			docker=DIYdocker,
+			docker=BENCHMARKdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size,
 		}
