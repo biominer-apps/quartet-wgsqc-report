@@ -4,7 +4,7 @@
 >
 > E-mail：18110700050@fudan.edu.cn
 >
-> Git: http://47.103.223.233/renluyao/quartet_dna_quality_control_big_pipeline.git
+> Git: http://47.103.223.233/renluyao/quartet_dna_quality_control_wgs_big_pipeline
 >
 > Last Updates: 2021/7/5
 
@@ -17,15 +17,11 @@ choppy install renluyao/quartet_dna_quality_control_big_pipeline
 
 ## Introduction of Chinese Quartet DNA reference materials
 
-建立高通量全基因组测序的生物计量和质量控制关键技术体系，是保障测序数据跨技术平台、跨实验室可比较、相关研究结果可重复、数据可共享的重要关键共性技术。建立国家基因组标准物质和基准数据集，突破基因组学的生物计量技术，是将测序技术转化成临床应用的重要环节与必经之路，目前国际上尚属空白。中国计量科学研究院与复旦大学、复旦大学泰州健康科学研究院共同研制了人源中华家系1号基因组标准物质（**Quartet，一套4个样本，编号分别为LCL5，LCL6，LCL7，LCL8，其中LCL5和LCL6为同卵双胞胎女儿，LCL7为父亲，LCL8为母亲**），以及相应的全基因组测序序列基准数据集（“量值”），为衡量基因序列检测准确与否提供一把“标尺”，成为保障基因测序数据可靠性的国家基准。人源中华家系1号基因组标准物质来源于泰州队列同卵双生双胞胎家庭，从遗传结构上体现了我国南北交界的人群结构特征，同时家系的设计也为“量值”的确定提供了遗传学依据。
+With the rapid development of sequencing technology and the dramatic decrease of sequencing costs, DNA sequencing has been widely used in scientific research, diagnosis of and treatment selection for human diseases. However, due to the lack of effective quality assessment and control of the high-throughput omics data generation and analysis processes, variants calling results are seriously inconsistent among different technical replicates, batches, laboratories, sequencing platforms, and analysis pipelines, resulting in irreproducible scientific results and conclusions, huge waste of resources, and even endangering the life and health of patients. Therefore, reference materials for quality control of the whole process from omics data generation to data analysis are urgently needed. 
 
-中华家系1号DNA标准物质的Small Variants标称值包括高置信单核苷酸变异信息、高置信短插入缺失变异信息和高置信参考基因组区。该系列标准物质可以用于评估基因组测序的性能，包括全基因组测序、全外显子测序、靶向测序，如基因捕获测序；还可用于评估测序过程和数据分析过程中对SNV和InDel检出的真阳性、假阳性、真阴性和假阴性水平，为基因组测序技术平台、实验室、相关产品的质量控制与性能验证提供标准物质和标准数据。此外，我们还可根据中华家系1号的生物遗传关系计算同卵双胞胎检测突变的一致性和符合四口之家遗传规律的一致率估计测序错误的比例，评估数据产生和分析的质量好坏。
+We first established genomic DNA reference materials from four immortalized B-lymphoblastoid cell lines of a Chinese Quartet family including parents and monozygotic twin daughters to make performance assessment of germline variants calling results. To establish small variant benchmark calls and regions, we generated whole-genome sequencing data in nine batches, with depth ranging from 30x to 60x, by employing PCR-free and PCR libraries on four popular short-read sequencing platforms (Illumina HiSeq XTen, Illumina NovaSeq, MGISEQ-2000, and DNBSEQ-T7) with three replicates at each batch, resulting in 108 libraries in total and 27 libraries for each Quartet DNA reference material. Then, we selected variants concordant in multiple call sets and in Mendelian consistency within Quartet family members as small variant benchmark calls, resulting in 4.2 million high-confidence variants (SNV and Indel) and 2.66 G high confidence genomic region, covering 87.8% of the human reference genome (GRCh38, chr1-22 and X). Two orthogonal technologies were used for verifying the high-confidence variants. The consistency rate with PMRA (Axiom Precision Medicine Research Array) was 99.6%, and 95.9% of high-confidence variants were validated by 10X Genomics whole-genome sequencing data. Genetic built-in truth of the Quartet family design is another kind of “truth” within the four Quartet samples. Apart from comparison with benchmark calls in the benchmark regions to identify false-positive and false-negative variants, pedigree information among the Quartet DNA reference materials, i.e., reproducibility rate of variants between the twins and Mendelian concordance rate among family members, are complementary approaches to comprehensively estimate genome-wide variants calling performance. Finally, we developed a whole-genome sequencing data quality assessment pipeline and demonstrated its utilities with two examples of using the Quartet reference materials and datasets to evaluate data generation performance in three sequencing labs and different data analysis pipelines.
 
-![Picture1](./pictures/Picture1.png)
-
-该Quality_control APP用于全基因组测序（whole-genome sequencing，WGS）数据的质量评估，包括原始数据质控、比对数据质控和突变检出数据质控。
-
-## 流程与参数
+## Softwares and parameters
 
 ![workflow](./pictures/workflow.png)
 
@@ -82,104 +78,62 @@ vbt mendelian -ref <fasta_file> -mother <family_merged_vcf> -father <family_merg
 ## Input files
 
 ```bash
-choppy samples renluyao/quartet_dna_quality_control_big_pipeline-latest --output samples
+choppy samples renluyao/quartet_dna_quality_control_wgs_big_pipeline-latest --output samples
 ```
 
-####Samples文件的输入包括
+####Samples CSV file
 
-**1. inputSamplesFile**，该文件的上传至阿里云，samples文件中填写该文件的阿里云地址
+#### 1. Start from Fastq files
 
-请查看示例 **inputSamples.Examples.txt**
-
-```bash
-#read1	#read2	#sample_name
+```BASH
+sample_id,project,fastq_1_D5,fastq_2_D5,fastq_1_D6,fastq_2_D6,fastq_1_F7,fastq_2_F7,fastq_1_M8,fastq_2_M8
+# sample_id in choppy system
+# project name
+# oss path of D5 fastq read1 file
+# oss path of D5 fastq read2 file
+# oss path of D6 fastq read1 file
+# oss path of D6 fastq read2 file
+# oss path of F7 fastq read1 file
+# oss path of F7 fastq read2 file
+# oss path of M8 fastq read1 file
+# oss path of M8 fastq read2 file
 ```
 
-read1 是阿里云上fastq read1的地址
 
-read2 是阿里云上fastq read2的地址
 
-sample_name是指样本的命名
+#### 2. Start from VCF files
 
-所有上传的文件应有规范的命名
+```BASH
+sample_id,project,vcf_D5,vcf_D6,vcf_F7,vcf_M8
+# sample_id in choppy system
+# project name
+# oss path of D5 VCF file
+# oss path of D6 VCF file
+# oss path of F7 VCF file
+# oss path of M8 VCF file
+```
 
-Quartet_DNA_SequenceTech_SequenceMachine_SequenceSite_Sample_Replicate_Date.R1/R2.fastq.gz
 
-SequenceTech是指测序平台，如ILM、BGI等
 
-SequenceMachine是指测序仪器，如XTen、Nova、Hiseq（Illumina）、SEQ500、SEQ1000（BGI）等
+## Output Files
 
-SequenceSite是指测序单位的英文缩写
+#### 1. extract_tables.wdl/extract_tables_vcf.wdl
 
-Sample是指LCL5、LCL6、LCL7、LCL8
+(FASTQ) Pre-alignment QC:		pre_alignment.txt
 
-Replicate是指技术重复，从1开始依次增加
+(FASTQ) Post-alignment QC:	post_alignment.txt
 
-Date是指数据获得日期，格式为20200710
-
-后缀一定是R1/R2.fastq.gz，不可以随意更改，R1/R2不可以写成r1/r2，fastq.gz不可以写成fq.gz
-
-各个缩写规范请见 https://fudan-pgx.yuque.com/docs/share/5baa851b-da97-47b9-b6c4-78f2b60595ab?# 《数据命名规范》
-
-**2. project**
-
-这个项目的名称，可以写自己可以识别的字符串，只能写英文和数字，不可以写中文
-
-**samples文件的示例请查看choppy_samples_example.csv**
-
-#### Quartet样本的组合问题
-
-##### 1. 没有测LCL5和LCL6，或者没有同时测LCL5和LCL6
-
-只给出原始数据质控、比对数据质控、与标准集的比较
-
-##### 2. 包含LCL5和LCL6同卵双胞胎的数据，但是父母的数据不全
-
-只给出原始数据质控、比对数据质控、与标准集的比较、同卵双胞胎一致性
-
-##### 3. 四个quartet样本都测了
-
-给出所有结果原始数据质控、比对数据质控、与标准集的比较、同卵双胞胎一致性，符合孟德尔遗传比例
-
-**注意**：本app假设每个批次测的技术重复都一样，如batch 1测了LCL5、LCL6、LCL7和LCL8，batch 2 和batch 3也都测了这四个样本。本app不解决特别复杂的问题，例如batch1测了LCL5，LCL6，batch2测了LCL7和LCL8，本app只能给出原始数据质控、比对数据质控、与标准集的比较，不会把多个批次的数据合并计算孟德尔符合率和姐妹一致性。
-
-## App输出文件
-
-本计算会产生大量的中间结果，这里说明最后整合好的结果文件。两个tasks输出最终的结果：
-
-#### 1. extract_tables.wdl
-
-原始结果质控	pre_alignment.txt
-
-比对结果指控	post_alignment.txt
-
-突变检出指控	variants.calling.qc.txt
-
-如果用户输入4个一组完整的家系样本则可以得到每个家庭单位的precision和recall的平均值，用于报告第一页的展示：
-
-reference_datasets_aver-std.txt
+(FASTQ/VCF) Variants calling QC:	variants.calling.qc.txt
 
 ####2. quartet_mendelian.wdl
 
-基于Quartet家系的质控	mendelian.txt
-
-Quartet家系结果的平均值和SD值，用于报告第一页的展示
-
-quartet_indel_aver-std.txt
-
-quartet_snv_aver-std.txt
+(FASTQ/VCF) Mendelian concordance rate: mendelian.txt
 
 ## 结果展示与解读
 
-####1. 原始数据质量控制
+####1. pre_alignment.txt
 
-原始数据质量控制主要通过考察测序数据的基本特征判断数据质量的好坏，比如数据量是否达到要求、reads的重复率是否过多、碱基质量、ATGC四种碱基的分布、GC含量、接头序列含量以及是否有其他物种的污染等等。
-
-FastQC和FastqScreen是两个常用的原始数据质量控制软件
-
-总结表格 **pre_alignment.txt**
-
-| 列名                      | 说明                                 |
+| Column name               | Description                          |
 | ------------------------- | ------------------------------------ |
 | Sample                    | 样本名，R1结尾为read1，R2结尾为read2 |
 | %Dup                      | % Duplicate reads                    |
@@ -195,11 +149,9 @@ FastQC和FastqScreen是两个常用的原始数据质量控制软件
 | %Mitoch                   | 比对到线粒体序列的比例               |
 | %No hits                  | 没有比对到以上基因组的比例           |
 
-#### 2. 比对后数据质量控制
+#### 2.  post_alignment.txt
 
-总结表格 **post_alignment.txt**
-
-| 列名                  | 说明                                          |
+| Column name           | Description                                   |
 | --------------------- | --------------------------------------------- |
 | Sample                | 样本名                                        |
 | %Mapping              | % mapped reads                                |
@@ -214,11 +166,9 @@ FastQC和FastqScreen是两个常用的原始数据质量控制软件
 | PCT_10X               | Fraction of genome with at least 10x coverage |
 | PCT_30X               | Fraction of genome with at least 30x coverage |
 
-####3. 突变检出数据质量控制
+####3. variants.calling.qc.txt
 
-具体信息 **variants.calling.qc.txt**
-
-| 列名            | 说明                           |
+| Column name     | Description                    |
 | --------------- | ------------------------------ |
 | Sample          | 样本名                         |
 | SNV number      | 检测到SNV的数目                |
@@ -238,29 +188,16 @@ FastQC和FastqScreen是两个常用的原始数据质量控制软件
 | SNV F1          | SNV与标准集比较的F1-score      |
 | INDEL F1        | INDEL与标准集比较的F1-score    |
 
-与标准集比较的家庭单元整合结果**reference_datasets_aver-std.txt**
 
-|                 | Mean | SD   |
-| --------------- | ---- | ---- |
-| SNV precision   |      |      |
-| INDEL precision |      |      |
-| SNV recall      |      |      |
-| INDEL recall    |      |      |
-| SNV F1          |      |      |
-| INDEL F1        |      |      |
 
-####4 Quartet家系关系评估 mendelian.txt
+####4 mendelian.txt
 
-| 列名                          | 说明                                                         |
+| Column name                   | Description                                                  |
 | ----------------------------- | ------------------------------------------------------------ |
 | Family                        | 家庭名字，我们目前的设计是4个Quartet样本，每个三个技术重复，family_1是指rep1的4个样本组成的家庭单位，以此类推。 |
 | Total_Variants                | 四个Quartet样本一共能检测到的变异位点数目                    |
 | Mendelian_Concordant_Variants | 符合孟德尔规律的变异位点数目                                 |
 | Mendelian_Concordance_Quartet | 符合孟德尔遗传的比例                                         |
 
-家系结果的整合结果**quartet_indel_aver-std.txt**和**quartet_snv_aver-std.txt**
 
-|                             | Mean | SD   |
-| --------------------------- | ---- | ---- |
-| SNV/INDEL（根据文件名判断） |      |      |
 
