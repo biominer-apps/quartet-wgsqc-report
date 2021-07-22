@@ -5,7 +5,7 @@ task Haplotyper {
 	String fasta
 	File recaled_bam
 	File recaled_bam_index
-	String sample
+	String sample = basename(recaled_bam,".sorted.deduped.realigned.recaled.bam")
 	String docker
 	String cluster_config
 	String disk_size

@@ -4,11 +4,11 @@ task Realigner {
     File dbmills_dir
 
 	String SENTIEON_INSTALL_DIR
-	String sample
 	String fasta
 
 	File Dedup_bam
 	File Dedup_bam_index
+	String sample = basename(Dedup_bam,".sorted.deduped.bam")
 	String db_mills
 	String docker	
 	String cluster_config

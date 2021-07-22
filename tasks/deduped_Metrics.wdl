@@ -2,10 +2,10 @@ task deduped_Metrics {
 
     File ref_dir
 	String SENTIEON_INSTALL_DIR
-	String sample
 	String fasta
 	File Dedup_bam
 	File Dedup_bam_index
+	String sample = basename(Dedup_bam,".sorted.deduped.bam")
 	String docker
 	String cluster_config
 	String disk_size

@@ -7,8 +7,8 @@ task mapping {
 
 	String SENTIEON_INSTALL_DIR
 	String SENTIEON_LICENSE
-	String group
-	String sample
+	String group = basename(fastq_1,"_R1.fastq.gz")
+	String sample = basename(fastq_1,"_R1.fastq.gz")
 	String pl
 	String docker
 	String cluster_config

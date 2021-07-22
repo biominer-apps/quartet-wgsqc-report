@@ -4,7 +4,7 @@ task sentieon {
 	File aln_metrics
 	File is_metrics
 
-	String sample
+	String sample = basename(quality_yield,"_deduped_QualityYield.txt")
 	String docker
 	String cluster_config
 	String disk_size

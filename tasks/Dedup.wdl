@@ -1,10 +1,9 @@
 task Dedup {
 
 	String SENTIEON_INSTALL_DIR
-	String sample
-
 	File sorted_bam
 	File sorted_bam_index
+	String sample = basename(sorted_bam,".sorted.bam")
 	String docker
 	String cluster_config
 	String disk_size

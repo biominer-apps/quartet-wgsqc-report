@@ -73,8 +73,6 @@ workflow {{ project_name }} {
 			input: 
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			SENTIEON_LICENSE=SENTIEON_LICENSE,
-			group="LCL5",
-			sample="LCL5",
 			pl="ILLUMINAL",
 			fasta=fasta,
 			ref_dir=ref_dir,
@@ -110,7 +108,6 @@ workflow {{ project_name }} {
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			sorted_bam=mapping_D5.sorted_bam,
 			sorted_bam_index=mapping_D5.sorted_bam_index,
-			sample="LCL5",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -132,7 +129,6 @@ workflow {{ project_name }} {
 			ref_dir=ref_dir,
 			Dedup_bam=Dedup_D5.Dedup_bam,
 			Dedup_bam_index=Dedup_D5.Dedup_bam_index,
-			sample="LCL5",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -144,7 +140,6 @@ workflow {{ project_name }} {
 			wgs_metrics_algo=deduped_Metrics_D5.deduped_wgsmetrics,
 			aln_metrics=deduped_Metrics_D5.dedeuped_aln_metrics,
 			is_metrics=deduped_Metrics_D5.deduped_is_metrics,
-			sample="LCL5",
 			docker=SENTIEONdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size		
@@ -159,7 +154,6 @@ workflow {{ project_name }} {
 			Dedup_bam_index=Dedup_D5.Dedup_bam_index,
 			db_mills=db_mills,
 			dbmills_dir=dbmills_dir,
-			sample="LCL5",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -176,7 +170,6 @@ workflow {{ project_name }} {
 			dbmills_dir=dbmills_dir,
 			dbsnp=dbsnp,
 			dbsnp_dir=dbsnp_dir,
-			sample="LCL5",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -189,7 +182,6 @@ workflow {{ project_name }} {
 			ref_dir=ref_dir,
 			recaled_bam=BQSR_D5.recaled_bam,
 			recaled_bam_index=BQSR_D5.recaled_bam_index,
-			sample="LCL5",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -218,8 +210,6 @@ workflow {{ project_name }} {
 			input: 
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			SENTIEON_LICENSE=SENTIEON_LICENSE,
-			group="LCL6",
-			sample="LCL6",
 			pl="ILLUMINAL",
 			fasta=fasta,
 			ref_dir=ref_dir,
@@ -255,7 +245,6 @@ workflow {{ project_name }} {
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			sorted_bam=mapping_D6.sorted_bam,
 			sorted_bam_index=mapping_D6.sorted_bam_index,
-			sample="LCL6",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -277,7 +266,6 @@ workflow {{ project_name }} {
 			ref_dir=ref_dir,
 			Dedup_bam=Dedup_D6.Dedup_bam,
 			Dedup_bam_index=Dedup_D6.Dedup_bam_index,
-			sample="LCL6",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -289,7 +277,6 @@ workflow {{ project_name }} {
 			wgs_metrics_algo=deduped_Metrics_D6.deduped_wgsmetrics,
 			aln_metrics=deduped_Metrics_D6.dedeuped_aln_metrics,
 			is_metrics=deduped_Metrics_D6.deduped_is_metrics,
-			sample="LCL6",
 			docker=SENTIEONdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size		
@@ -304,7 +291,6 @@ workflow {{ project_name }} {
 			Dedup_bam_index=Dedup_D6.Dedup_bam_index,
 			db_mills=db_mills,
 			dbmills_dir=dbmills_dir,
-			sample="LCL6",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -321,7 +307,6 @@ workflow {{ project_name }} {
 			dbmills_dir=dbmills_dir,
 			dbsnp=dbsnp,
 			dbsnp_dir=dbsnp_dir,
-			sample="LCL6",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -334,7 +319,6 @@ workflow {{ project_name }} {
 			ref_dir=ref_dir,
 			recaled_bam=BQSR_D6.recaled_bam,
 			recaled_bam_index=BQSR_D6.recaled_bam_index,
-			sample="LCL6",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -363,8 +347,6 @@ workflow {{ project_name }} {
 			input: 
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			SENTIEON_LICENSE=SENTIEON_LICENSE,
-			group="LCL7",
-			sample="LCL7",
 			pl="ILLUMINAL",
 			fasta=fasta,
 			ref_dir=ref_dir,
@@ -400,7 +382,6 @@ workflow {{ project_name }} {
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			sorted_bam=mapping_F7.sorted_bam,
 			sorted_bam_index=mapping_F7.sorted_bam_index,
-			sample="LCL7",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -422,7 +403,6 @@ workflow {{ project_name }} {
 			ref_dir=ref_dir,
 			Dedup_bam=Dedup_F7.Dedup_bam,
 			Dedup_bam_index=Dedup_F7.Dedup_bam_index,
-			sample="LCL7",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -434,7 +414,6 @@ workflow {{ project_name }} {
 			wgs_metrics_algo=deduped_Metrics_F7.deduped_wgsmetrics,
 			aln_metrics=deduped_Metrics_F7.dedeuped_aln_metrics,
 			is_metrics=deduped_Metrics_F7.deduped_is_metrics,
-			sample="LCL7",
 			docker=SENTIEONdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size		
@@ -449,7 +428,6 @@ workflow {{ project_name }} {
 			Dedup_bam_index=Dedup_F7.Dedup_bam_index,
 			db_mills=db_mills,
 			dbmills_dir=dbmills_dir,
-			sample="LCL7",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -466,7 +444,6 @@ workflow {{ project_name }} {
 			dbmills_dir=dbmills_dir,
 			dbsnp=dbsnp,
 			dbsnp_dir=dbsnp_dir,
-			sample="LCL7",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -479,7 +456,6 @@ workflow {{ project_name }} {
 			ref_dir=ref_dir,
 			recaled_bam=BQSR_F7.recaled_bam,
 			recaled_bam_index=BQSR_F7.recaled_bam_index,
-			sample="LCL7",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -508,8 +484,6 @@ workflow {{ project_name }} {
 			input: 
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			SENTIEON_LICENSE=SENTIEON_LICENSE,
-			group="LCL8",
-			sample="LCL8",
 			pl="ILLUMINAL",
 			fasta=fasta,
 			ref_dir=ref_dir,
@@ -545,7 +519,6 @@ workflow {{ project_name }} {
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			sorted_bam=mapping_M8.sorted_bam,
 			sorted_bam_index=mapping_M8.sorted_bam_index,
-			sample="LCL8",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -567,7 +540,6 @@ workflow {{ project_name }} {
 			ref_dir=ref_dir,
 			Dedup_bam=Dedup_M8.Dedup_bam,
 			Dedup_bam_index=Dedup_M8.Dedup_bam_index,
-			sample="LCL8",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -579,7 +551,6 @@ workflow {{ project_name }} {
 			wgs_metrics_algo=deduped_Metrics_M8.deduped_wgsmetrics,
 			aln_metrics=deduped_Metrics_M8.dedeuped_aln_metrics,
 			is_metrics=deduped_Metrics_M8.deduped_is_metrics,
-			sample="LCL8",
 			docker=SENTIEONdocker,
 			cluster_config=SMALLcluster_config,
 			disk_size=disk_size		
@@ -594,7 +565,6 @@ workflow {{ project_name }} {
 			Dedup_bam_index=Dedup_M8.Dedup_bam_index,
 			db_mills=db_mills,
 			dbmills_dir=dbmills_dir,
-			sample="LCL8",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -611,7 +581,6 @@ workflow {{ project_name }} {
 			dbmills_dir=dbmills_dir,
 			dbsnp=dbsnp,
 			dbsnp_dir=dbsnp_dir,
-			sample="LCL8",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -624,7 +593,6 @@ workflow {{ project_name }} {
 			ref_dir=ref_dir,
 			recaled_bam=BQSR_M8.recaled_bam,
 			recaled_bam_index=BQSR_M8.recaled_bam_index,
-			sample="LCL8",
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config

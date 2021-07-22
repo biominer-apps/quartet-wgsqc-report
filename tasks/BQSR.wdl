@@ -3,13 +3,13 @@ task BQSR {
     File ref_dir
     File dbsnp_dir
     File dbmills_dir
-	String sample
 	String SENTIEON_INSTALL_DIR
 	String fasta
 	String dbsnp
 	String db_mills
 	File realigned_bam
 	File realigned_bam_index
+	String sample = basename(realigned_bam,".sorted.deduped.realigned.bam")
 	String docker
 	String cluster_config
 	String disk_size
