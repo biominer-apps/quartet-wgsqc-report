@@ -1,17 +1,17 @@
 {
-  "formMode": "single",
+  "formMode": "batch",
   "fields": [
     {
       "tmplType": "sample_id",
       "type": "number",
-      "label": "Batch ID",
+      "label": "Sample ID",
       "name": "sample_id",
-      "question": "How many batches? For auto generating batch id.",
-      "placeholder": "How many batches? For auto generating batch id.",
+      "question": "How many samples? For auto generating sample id.",
+      "placeholder": "How many samples? For auto generating sample id.",
       "model": "sample_id",
       "disabled": true,
       "min": 1,
-      "max": 1,
+      "max": 100,
       "config": {
         "initialValue": 1,
         "rules": [
