@@ -1,0 +1,165 @@
+{
+  "formMode": "single",
+  "fields": [
+    {
+      "tmplType": "file",
+      "label": "D5 Read1 Files",
+      "model": "fastq_1_D5",
+      "readOnly": false,
+      "multiple": true,
+      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "placeholder": "Select files for D5 read1.",
+      "config": {
+        "rules": [
+          {
+            "type": "array",
+            "required": true,
+            "message": "Please select files for D5 read1."
+          }
+        ]
+      }
+    },
+    {
+      "tmplType": "file",
+      "label": "D5 Read2 Files",
+      "model": "fastq_2_D5",
+      "readOnly": false,
+      "multiple": true,
+      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "placeholder": "Select files for D5 read2.",
+      "config": {
+        "rules": [
+          {
+            "type": "array",
+            "required": true,
+            "message": "Please select files for D5 read2."
+          }
+        ]
+      }
+    },
+    {
+      "tmplType": "file",
+      "label": "D6 Read1 Files",
+      "model": "fastq_1_D6",
+      "readOnly": false,
+      "multiple": true,
+      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "placeholder": "Select files for D6 read1.",
+      "config": {
+        "rules": [
+          {
+            "type": "array",
+            "required": true,
+            "message": "Please select files for D6 read1."
+          }
+        ]
+      }
+    },
+    {
+      "tmplType": "file",
+      "label": "D6 Read2 Files",
+      "model": "fastq_2_D6",
+      "readOnly": false,
+      "multiple": true,
+      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "placeholder": "Select files for D6 read2.",
+      "config": {
+        "rules": [
+          {
+            "type": "array",
+            "required": true,
+            "message": "Please select files for D6 read2."
+          }
+        ]
+      }
+    },
+    {
+      "tmplType": "file",
+      "label": "F7 Read1 Files",
+      "model": "fastq_1_F7",
+      "readOnly": false,
+      "multiple": true,
+      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "placeholder": "Select files for F7 read1.",
+      "config": {
+        "rules": [
+          {
+            "type": "array",
+            "required": true,
+            "message": "Please select files for F7 read1."
+          }
+        ]
+      }
+    },
+    {
+      "tmplType": "file",
+      "label": "F7 Read2 Files",
+      "model": "fastq_2_F7",
+      "readOnly": false,
+      "multiple": true,
+      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "placeholder": "Select files for F7 read2.",
+      "config": {
+        "rules": [
+          {
+            "type": "array",
+            "required": true,
+            "message": "Please select files for F7 read2."
+          }
+        ]
+      }
+    },
+    {
+      "tmplType": "file",
+      "label": "M8 Read1 Files",
+      "model": "fastq_1_M8",
+      "readOnly": false,
+      "multiple": true,
+      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "placeholder": "Select files for M8 read1.",
+      "config": {
+        "rules": [
+          {
+            "type": "array",
+            "required": true,
+            "message": "Please select files for M8 read1."
+          }
+        ]
+      }
+    },
+    {
+      "tmplType": "file",
+      "label": "M8 Read2 Files",
+      "model": "fastq_2_M8",
+      "readOnly": false,
+      "multiple": true,
+      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "placeholder": "Select files for M8 read2.",
+      "config": {
+        "rules": [
+          {
+            "type": "array",
+            "required": true,
+            "message": "Please select files for M8 read2."
+          }
+        ]
+      }
+    },
+    {
+      "tmplType": "actions",
+      "buttons": [
+        {
+          "type": "cancel",
+          "buttonType": "default",
+          "buttonLabel": "Previous Step"
+        },
+        {
+          "type": "submit",
+          "buttonType": "primary",
+          "buttonLabel": "Next Step",
+          "validate": true
+        }
+      ]
+    }
+  ]
+}
