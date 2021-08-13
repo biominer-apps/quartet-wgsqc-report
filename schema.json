@@ -9,7 +9,7 @@
       "question": "How many samples? For auto generating sample id.",
       "placeholder": "How many samples? For auto generating sample id.",
       "model": "sample_id",
-      "disabled": true,
+      "disabled": false,
       "min": 1,
       "max": 100,
       "config": {
