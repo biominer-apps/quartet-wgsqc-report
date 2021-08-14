@@ -12,7 +12,7 @@
   "{{ project_name }}.FASTQCdocker": "{{ FASTQCdocker }}",
   "{{ project_name }}.MULTIQCdocker": "{{ MULTIQCdocker }}",
   "{{ project_name }}.fastq_2_M8": "{{ fastq_2_M8 }}",
-  "{{ project_name }}.project": "{{ project }}",
+  "{{ project_name }}.project": "{{ project_name }}",
   "{{ project_name }}.fastq_1_M8": "{{ fastq_1_M8 }}",
   "{{ project_name }}.SMALLcluster_config": "{{ SMALLcluster_config }}",
   "{{ project_name }}.screen_ref_dir": "{{ screen_ref_dir }}",
