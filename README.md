@@ -6,7 +6,7 @@
 >
 > Git: http://47.103.223.233/renluyao/quartet_dna_quality_control_wgs_big_pipeline
 >
-> Last Updates: 2021/7/5
+> Last Updates: 2022/4/26
 
 ## Install
 
@@ -15,17 +15,41 @@ open-choppy-env
 choppy install renluyao/quartet_dna_quality_control_big_pipeline
 ```
 
-## Introduction of Chinese Quartet DNA reference materials
+## Introduction 
+
+###Chinese Quartet DNA reference materials
 
 With the rapid development of sequencing technology and the dramatic decrease of sequencing costs, DNA sequencing has been widely used in scientific research, diagnosis of and treatment selection for human diseases. However, due to the lack of effective quality assessment and control of the high-throughput omics data generation and analysis processes, variants calling results are seriously inconsistent among different technical replicates, batches, laboratories, sequencing platforms, and analysis pipelines, resulting in irreproducible scientific results and conclusions, huge waste of resources, and even endangering the life and health of patients. Therefore, reference materials for quality control of the whole process from omics data generation to data analysis are urgently needed. 
 
 We first established genomic DNA reference materials from four immortalized B-lymphoblastoid cell lines of a Chinese Quartet family including parents and monozygotic twin daughters to make performance assessment of germline variants calling results. To establish small variant benchmark calls and regions, we generated whole-genome sequencing data in nine batches, with depth ranging from 30x to 60x, by employing PCR-free and PCR libraries on four popular short-read sequencing platforms (Illumina HiSeq XTen, Illumina NovaSeq, MGISEQ-2000, and DNBSEQ-T7) with three replicates at each batch, resulting in 108 libraries in total and 27 libraries for each Quartet DNA reference material. Then, we selected variants concordant in multiple call sets and in Mendelian consistency within Quartet family members as small variant benchmark calls, resulting in 4.2 million high-confidence variants (SNV and Indel) and 2.66 G high confidence genomic region, covering 87.8% of the human reference genome (GRCh38, chr1-22 and X). Two orthogonal technologies were used for verifying the high-confidence variants. The consistency rate with PMRA (Axiom Precision Medicine Research Array) was 99.6%, and 95.9% of high-confidence variants were validated by 10X Genomics whole-genome sequencing data. Genetic built-in truth of the Quartet family design is another kind of “truth” within the four Quartet samples. Apart from comparison with benchmark calls in the benchmark regions to identify false-positive and false-negative variants, pedigree information among the Quartet DNA reference materials, i.e., reproducibility rate of variants between the twins and Mendelian concordance rate among family members, are complementary approaches to comprehensively estimate genome-wide variants calling performance. Finally, we developed a whole-genome sequencing data quality assessment pipeline and demonstrated its utilities with two examples of using the Quartet reference materials and datasets to evaluate data generation performance in three sequencing labs and different data analysis pipelines.
 
-## Softwares and parameters
+### Quality control pipeline for WGS
+
+This Quartet quality control pipeline evaluate the performance of reads quality and variant calling quality. This pipeline accepts FASTQ format input files or VCF format input files. If the users input FASTQ files, this APP will output the results of pre-alignment quality control from FASTQ files, post-alignment quality control from BAM files and variant calling quality control from VCF files. [GATK best practice pipelines](https://gatk.broadinstitute.org/hc/en-us/articles/360035535932-Germline-short-variant-discovery-SNPs-Indels-) (implemented by [SENTIEON software](https://support.sentieon.com/manual/)) were used to map reads to the reference genome and call variants. If the users input VCF files, this APP will only output the results of variant calling quality control.
+
+Quartet quality control analysis pipeline started from FASTQ files is implemented across seven main procedures:
+
+- Pre-alignment QC of FASTQ files
+- Genome alignment
+- Post-alignment QC of BAM files
+- Germline variant calling
+- Variant calling QC depended on benchmark sets of VCF files
+- Check Mendelian ingeritance states across four Quartet samples of every variants
+- Variant calling QC depended on Quartet genetic relationship of VCF files
+
+Quartet quality control analysis pipeline started from VCF files is implemented across three main procedures:
+
+- Variant calling QC depended on benchmark sets of VCF files
+- Check Mendelian ingeritance states across four Quartet samples of every variants
+- Variant calling QC depended on Quartet genetic relationship of VCF files
 
 ![workflow](./pictures/workflow.png)
 
-### 1. Pre-alignment QC
+Results generated from this APP can be visualized by Choppy report.
+
+## Data Processing Steps
+
+### 1. Pre-alignment QC of FASTQ files
 
 #### [Fastqc](<https://www.bioinformatics.babraham.ac.uk/projects/fastqc/>) v0.11.5
 
@@ -43,33 +67,60 @@ Fastq Screen is used to inspect whether the library were contaminated. For examp
 fastq_screen --aligner <aligner> --conf <config_file> --top <number_of_reads> --threads <threads> <fastq_file>
 ```
 
-### 2. Post-alignment QC
+### 2. Genome alignment
+
+####[sentieon-genomics](https://support.sentieon.com/manual/):v2019.11.28
+
+Reads were mapped to the human reference genome GRCh38 using Sentieon BWA.
+
+```bash
+${SENTIEON_INSTALL_DIR}/bin/bwa mem -M -R "@RG\tID:${group}\tSM:${sample}\tPL:${pl}" -t $nt -K 10000000 ${ref_dir}/${fasta} ${fastq_1} ${fastq_2} | ${SENTIEON_INSTALL_DIR}/bin/sentieon util sort -o ${sample}.sorted.bam -t $nt --sam2bam -i -
+
+```
+
+### 3. Post-alignment QC
+
+Qualimap and Paicard Tools (implemented by Sentieon) are used to check the quality of BAM files. Deduplicated BAM files are used in this step.
 
 #### [Qualimap](<http://qualimap.bioinfo.cipf.es/>) 2.0.0
-
-Qualimap is used to check the quality od bam files
 
 ```bash
 qualimap bamqc -bam <bam_file> -outformat PDF:HTML -nt <threads> -outdir <output_directory> --java-mem-size=32G 
 ```
 
-### 3. Variants Calling QC
+####[Sentieon-genomics](https://support.sentieon.com/manual/):v2019.11.28
+
+```
+${SENTIEON_INSTALL_DIR}/bin/sentieon driver -r ${ref_dir}/${fasta} -t $nt -i ${Dedup_bam} --algo CoverageMetrics --omit_base_output ${sample}_deduped_coverage_metrics --algo MeanQualityByCycle ${sample}_deduped_mq_metrics.txt --algo QualDistribution ${sample}_deduped_qd_metrics.txt --algo GCBias --summary ${sample}_deduped_gc_summary.txt ${sample}_deduped_gc_metrics.txt --algo AlignmentStat ${sample}_deduped_aln_metrics.txt --algo InsertSizeMetricAlgo ${sample}_deduped_is_metrics.txt --algo QualityYield ${sample}_deduped_QualityYield.txt --algo WgsMetricsAlgo ${sample}_deduped_WgsMetricsAlgo.txt
+```
+
+### 4. Germline variant calling
+
+HaplotyperCaller implemented by Sentieon is used to identify germline variants.
+
+```bash
+${SENTIEON_INSTALL_DIR}/bin/sentieon driver -r ${ref_dir}/${fasta} -t $nt -i ${recaled_bam} --algo Haplotyper ${sample}_hc.vcf
+```
+
+### 5. Variants Calling QC
 
 ![performance](./pictures/performance.png)
 
-#### 3.1 Performance assessment based on reference datasets
+#### 5.1 Performance assessment based on benchmark sets
 
 #### [Hap.py](<https://github.com/Illumina/hap.py>) v0.3.9
+
+Variants were compared with benchmark calls in benchmark regions.
 
 ```bash
 hap.py <truth_vcf> <query_vcf> -f <bed_file> --threads <threads> -o <output_filename>
 ```
 
-#### 3.2 Performance assessment based on Quartet genetic built-in truth
+#### 5.2 Performance assessment based on Quartet genetic built-in truth
 
-#### [Mendelian Concordance Rate](https://github.com/sbg/VBT-TrioAnalysis) (vbt v1.1)
+#### [VBT](https://github.com/sbg/VBT-TrioAnalysis) v1.1
 
-We splited the Quartet family to two trios (F7, M8, D5 and F7, M8, D6) and then do the Mendelian analysis. A Quartet Mendelian concordant variant is the same between the twins (D5 and D6) , and follow the Mendelian concordant between parents (F7 and M8). Mendelian concordance rate is the Mendelian concordance variant divided by total detected variants in a Quartet family.
+We splited the Quartet family to two trios (F7, M8, D5 and F7, M8, D6) and then do the Mendelian analysis. A Quartet Mendelian concordant variant is the same between the twins (D5 and D6) , and follow the Mendelian concordant between parents (F7 and M8). Mendelian concordance rate is the Mendelian concordance variant divided by total detected variants in a Quartet family. Only variants on chr1-22,X are included in this analysis.
 
 ```bash
 vbt mendelian -ref <fasta_file> -mother <family_merged_vcf> -father <family_merged_vcf> -child <family_merged_vcf> -pedigree <ped_file> -outDir <output_directory> -out-prefix <output_directory_prefix> --output-violation-regions -thread-count <threads>
@@ -99,8 +150,6 @@ sample_id,project,fastq_1_D5,fastq_2_D5,fastq_1_D6,fastq_2_D6,fastq_1_F7,fastq_2
 # oss path of M8 fastq read2 file
 ```
 
-
-
 #### 2. Start from VCF files
 
 ```BASH
@@ -112,8 +161,6 @@ sample_id,project,vcf_D5,vcf_D6,vcf_F7,vcf_M8
 # oss path of F7 VCF file
 # oss path of M8 VCF file
 ```
-
-
 
 ## Output Files
 
@@ -127,38 +174,38 @@ sample_id,project,vcf_D5,vcf_D6,vcf_F7,vcf_M8
 
 ####2. quartet_mendelian.wdl
 
-(FASTQ/VCF) Mendelian concordance rate: mendelian.txt
+(FASTQ/VCF) Variants calling QC: mendelian.txt
 
-## 结果展示与解读
+## Output files format
 
 ####1. pre_alignment.txt
 
-| Column name               | Description                          |
-| ------------------------- | ------------------------------------ |
-| Sample                    | 样本名，R1结尾为read1，R2结尾为read2 |
-| %Dup                      | % Duplicate reads                    |
-| %GC                       | Average % GC content                 |
-| Total Sequences (million) | Total sequences                      |
-| %Human                    | 比对到人类基因组的比例               |
-| %EColi                    | 比对到大肠杆菌基因组的比例           |
-| %Adapter                  | 比对到接头序列的比例                 |
-| %Vector                   | 比对到载体基因组的比例               |
-| %rRNA                     | 比对到rRNA序列的比例                 |
-| %Virus                    | 比对到病毒基因组的比例               |
-| %Yeast                    | 比对到酵母基因组的比例               |
-| %Mitoch                   | 比对到线粒体序列的比例               |
-| %No hits                  | 没有比对到以上基因组的比例           |
+| Column name               | Description                                               |
+| ------------------------- | --------------------------------------------------------- |
+| Sample                    | Sample name                                               |
+| %Dup                      | Percentage duplicate reads                                |
+| %GC                       | Average GC percentage                                     |
+| Total Sequences (million) | Total sequences                                           |
+| %Human                    | Percentage of reads mapped to human genome                |
+| %EColi                    | Percentage of reads mapped to Ecoli                       |
+| %Adapter                  | Percentage of reads mapped to adapter                     |
+| %Vector                   | Percentage of reads mapped to vector                      |
+| %rRNA                     | Percentage of reads mapped to rRNA                        |
+| %Virus                    | Percentage of reads mapped to virus                       |
+| %Yeast                    | Percentage of reads mapped to yeast                       |
+| %Mitoch                   | Percentage of reads mapped to mitochondrion               |
+| %No hits                  | Percentage of reads not mapped to genomes mentioned above |
 
 #### 2.  post_alignment.txt
 
 | Column name           | Description                                   |
 | --------------------- | --------------------------------------------- |
-| Sample                | 样本名                                        |
-| %Mapping              | % mapped reads                                |
+| Sample                | Sample name                                   |
+| %Mapping              | Percentage of mapped reads                    |
 | %Mismatch Rate        | Mapping error rate                            |
 | Mendelian Insert Size | Median insert size（bp）                      |
-| %Q20                  | % bases >Q20                                  |
-| %Q30                  | % bases >Q30                                  |
+| %Q20                  | Percentage of bases >Q20                      |
+| %Q30                  | Percentage of bases >Q30                      |
 | Mean Coverage         | Mean deduped coverage                         |
 | Median Coverage       | Median deduped coverage                       |
 | PCT_1X                | Fraction of genome with at least 1x coverage  |
@@ -168,36 +215,33 @@ sample_id,project,vcf_D5,vcf_D6,vcf_F7,vcf_M8
 
 ####3. variants.calling.qc.txt
 
-| Column name     | Description                    |
-| --------------- | ------------------------------ |
-| Sample          | 样本名                         |
-| SNV number      | 检测到SNV的数目                |
-| INDEL number    | 检测到INDEL的数目              |
-| SNV query       | 在高置信基因组区域中的SNV数目  |
-| INDEL query     | 在高置信基因组区域中INDEL数目  |
-| SNV TP          | 真阳性SNV                      |
-| INDEL TP        | 真阳性INDEL                    |
-| SNV FP          | 假阳性SNV                      |
-| INDEL FP        | 假阳性INDEL                    |
-| SNV FN          | 假阴性SNV                      |
-| INDEL FN        | 假阴性INDEL                    |
-| SNV precision   | SNV与标准集比较的precision     |
-| INDEL precision | INDEL的与标准集比较的precision |
-| SNV recall      | SNV与标准集比较的recall        |
-| INDEL recall    | INDEL的与标准集比较的recall    |
-| SNV F1          | SNV与标准集比较的F1-score      |
-| INDEL F1        | INDEL与标准集比较的F1-score    |
+| Column name     | Description                                                  |
+| --------------- | ------------------------------------------------------------ |
+| Sample          | Sample name                                                  |
+| SNV number      | Total SNV number (chr1-22,X)                                 |
+| INDEL number    | Total INDEL number (chr1-22,X)                               |
+| SNV query       | SNV number in benchmark region                               |
+| INDEL query     | INDEL number in benchmark region                             |
+| SNV TP          | True positive SNV                                            |
+| INDEL TP        | True positive INDEL                                          |
+| SNV FP          | False positive SNV                                           |
+| INDEL FP        | True positive INDEL                                          |
+| SNV FN          | False negative SNV                                           |
+| INDEL FN        | False negative INDEL                                         |
+| SNV precision   | Precision of SNV calls when compared with benchmark calls in benchmark regions |
+| INDEL precision | Precision of INDEL calls when compared with benchmark calls in benchmark regions |
+| SNV recall      | Recall of SNV calls when compared with benchmark calls in benchmark regions |
+| INDEL recall    | Recall of INDEL calls when compared with benchmark calls in benchmark regions |
+| SNV F1          | F1 score of SNV calls when compared with benchmark calls in benchmark regions |
+| INDEL F1        | F1 score of INDEL calls when compared with benchmark calls in benchmark regions |
 
+####4 {project}.summary.txt
 
-
-####4 mendelian.txt
-
-| Column name                   | Description                                                  |
-| ----------------------------- | ------------------------------------------------------------ |
-| Family                        | 家庭名字，我们目前的设计是4个Quartet样本，每个三个技术重复，family_1是指rep1的4个样本组成的家庭单位，以此类推。 |
-| Total_Variants                | 四个Quartet样本一共能检测到的变异位点数目                    |
-| Mendelian_Concordant_Variants | 符合孟德尔规律的变异位点数目                                 |
-| Mendelian_Concordance_Quartet | 符合孟德尔遗传的比例                                         |
+| Column name                   | Description                                                 |
+| ----------------------------- | ----------------------------------------------------------- |
+| Family                        | Family name defined by inputed project name                 |
+| Reproducibility_D5_D6         | Percentage of variants were shared by the twins (D5 and D6) |
+| Mendelian_Concordance_Quartet | Percentage of variants were Mendelian concordance           |
 
 
 
