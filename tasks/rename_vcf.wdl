@@ -1,4 +1,4 @@
-task rename_fastq {
+task rename_vcf {
 
 	File vcf_D5
 	File vcf_D6
