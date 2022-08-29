@@ -1,9 +1,13 @@
 task rename_vcf {
 
 	File vcf_D5
+	String vcf_D5_name = basename(vcf_D5, ".vcf")
 	File vcf_D6
+	String vcf_D6_name = basename(vcf_D6, ".vcf")
 	File vcf_F7
+	String vcf_F7_name = basename(vcf_F7, ".vcf")
 	File vcf_M8
+	String vcf_M8_name = basename(vcf_M8, ".vcf")
 
 	String project
 	String docker
@@ -11,10 +15,10 @@ task rename_vcf {
 	String disk_size
 
 	command <<<
-		mv vcf_D5 ${project}_LCL5.vcf
-		mv vcf_D6 ${project}_LCL6.vcf
-		mv vcf_F7 ${project}_LCL7.vcf
-		mv vcf_M8 ${project}_LCL8.vcf
+		mv vcf_D5 ${vcf_D5_name}_${project}_LCL5.vcf
+		mv vcf_D6 ${vcf_D6_name}_${project}_LCL6.vcf
+		mv vcf_F7 ${vcf_F7_name}_${project}_LCL7.vcf
+		mv vcf_M8 ${vcf_M8_name}_${project}_LCL8.vcf
 	>>>
 
 	runtime {
@@ -25,9 +29,9 @@ task rename_vcf {
 	}
 
 	output {
-		File vcf_D5_renamed = "${project}_LCL5.vcf"
-		File vcf_D6_renamed = "${project}_LCL6.vcf"
-		File vcf_F7_renamed = "${project}_LCL7.vcf"
-		File vcf_M8_renamed = "${project}_LCL8.vcf"
+		File vcf_D5_renamed = "${vcf_D5_name}_${project}_LCL5.vcf"
+		File vcf_D6_renamed = "${vcf_D6_name}_${project}_LCL6.vcf"
+		File vcf_F7_renamed = "${vcf_F7_name}_${project}_LCL7.vcf"
+		File vcf_M8_renamed = "${vcf_M8_name}_${project}_LCL8.vcf"
 	}
 }
