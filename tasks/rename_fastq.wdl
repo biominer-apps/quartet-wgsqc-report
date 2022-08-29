@@ -16,14 +16,14 @@ task rename_fastq {
 	String disk_size
 
 	command <<<
-		mv fastq_1_D5 ${project}_LCL5.R1.fastq.gz
-		mv fastq_1_D6 ${project}_LCL6.R1.fastq.gz
-		mv fastq_1_F7 ${project}_LCL7.R1.fastq.gz
-		mv fastq_1_M8 ${project}_LCL8.R1.fastq.gz
-		mv fastq_2_D5 ${project}_LCL5.R2.fastq.gz
-		mv fastq_2_D6 ${project}_LCL6.R2.fastq.gz
-		mv fastq_2_F7 ${project}_LCL7.R2.fastq.gz
-		mv fastq_2_M8 ${project}_LCL8.R2.fastq.gz
+		mv fastq_1_D5 ${project}_LCL5_R1.fastq.gz
+		mv fastq_1_D6 ${project}_LCL6_R1.fastq.gz
+		mv fastq_1_F7 ${project}_LCL7_R1.fastq.gz
+		mv fastq_1_M8 ${project}_LCL8_R1.fastq.gz
+		mv fastq_2_D5 ${project}_LCL5_R2.fastq.gz
+		mv fastq_2_D6 ${project}_LCL6_R2.fastq.gz
+		mv fastq_2_F7 ${project}_LCL7_R2.fastq.gz
+		mv fastq_2_M8 ${project}_LCL8_R2.fastq.gz
 
 	>>>
 
@@ -35,13 +35,13 @@ task rename_fastq {
 	}
 
 	output {
-		File fastq_1_D5_renamed = "${project}_LCL5.R1.fastq.gz"
-		File fastq_1_D6_renamed = "${project}_LCL6.R1.fastq.gz"
-		File fastq_1_F7_renamed = "${project}_LCL7.R1.fastq.gz"
-		File fastq_1_M8_renamed = "${project}_LCL8.R1.fastq.gz"
-		File fastq_2_D5_renamed = "${project}_LCL5.R2.fastq.gz"
-		File fastq_2_D6_renamed = "${project}_LCL6.R2.fastq.gz"
-		File fastq_2_F7_renamed = "${project}_LCL7.R2.fastq.gz"
-		File fastq_2_M8_renamed = "${project}_LCL8.R2.fastq.gz"
+		File fastq_1_D5_renamed = "${project}_LCL5_R1.fastq.gz"
+		File fastq_1_D6_renamed = "${project}_LCL6_R1.fastq.gz"
+		File fastq_1_F7_renamed = "${project}_LCL7_R1.fastq.gz"
+		File fastq_1_M8_renamed = "${project}_LCL8_R1.fastq.gz"
+		File fastq_2_D5_renamed = "${project}_LCL5_R2.fastq.gz"
+		File fastq_2_D6_renamed = "${project}_LCL6_R2.fastq.gz"
+		File fastq_2_F7_renamed = "${project}_LCL7_R2.fastq.gz"
+		File fastq_2_M8_renamed = "${project}_LCL8_R2.fastq.gz"
 	}
 }
