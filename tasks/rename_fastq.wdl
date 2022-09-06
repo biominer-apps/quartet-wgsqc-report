@@ -24,14 +24,14 @@ task rename_fastq {
 	String disk_size
 
 	command <<<
-		mv ${fastq_1_D5} ${fastq_1_D5_name}_${project}_LCL5_R1.fastq.gz
-		mv ${fastq_1_D6} ${fastq_1_D6_name}_${project}_LCL6_R1.fastq.gz
-		mv ${fastq_1_F7} ${fastq_1_F7_name}_${project}_LCL7_R1.fastq.gz
-		mv ${fastq_1_M8} ${fastq_1_M8_name}_${project}_LCL8_R1.fastq.gz
-		mv ${fastq_2_D5} ${fastq_2_D5_name}_${project}_LCL5_R2.fastq.gz
-		mv ${fastq_2_D6} ${fastq_2_D6_name}_${project}_LCL6_R2.fastq.gz
-		mv ${fastq_2_F7} ${fastq_2_F7_name}_${project}_LCL7_R2.fastq.gz
-		mv ${fastq_2_M8} ${fastq_2_M8_name}_${project}_LCL8_R2.fastq.gz
+		cp ${fastq_1_D5} ${fastq_1_D5_name}_${project}_LCL5_R1.fastq.gz
+		cp ${fastq_1_D6} ${fastq_1_D6_name}_${project}_LCL6_R1.fastq.gz
+		cp ${fastq_1_F7} ${fastq_1_F7_name}_${project}_LCL7_R1.fastq.gz
+		cp ${fastq_1_M8} ${fastq_1_M8_name}_${project}_LCL8_R1.fastq.gz
+		cp ${fastq_2_D5} ${fastq_2_D5_name}_${project}_LCL5_R2.fastq.gz
+		cp ${fastq_2_D6} ${fastq_2_D6_name}_${project}_LCL6_R2.fastq.gz
+		cp ${fastq_2_F7} ${fastq_2_F7_name}_${project}_LCL7_R2.fastq.gz
+		cp ${fastq_2_M8} ${fastq_2_M8_name}_${project}_LCL8_R2.fastq.gz
 
 	>>>
 
