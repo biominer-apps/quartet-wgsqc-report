@@ -16,9 +16,13 @@ task rename_vcf {
 
 	command <<<
 		cp ${vcf_D5} ${vcf_D5_name}_${project}_LCL5.vcf
+		rm ${vcf_D5}
 		cp ${vcf_D6} ${vcf_D6_name}_${project}_LCL6.vcf
+		rm ${vcf_D6}
 		cp ${vcf_F7} ${vcf_F7_name}_${project}_LCL7.vcf
+		rm ${vcf_F7}
 		cp ${vcf_M8} ${vcf_M8_name}_${project}_LCL8.vcf
+		rm ${vcf_M8}
 	>>>
 
 	runtime {
