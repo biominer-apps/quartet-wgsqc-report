@@ -83,6 +83,7 @@ workflow {{ project_name }} {
 			fastq_2=fastq_2_D5,
 			group=project,
 			sample='LCL5',
+			project=project,
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config

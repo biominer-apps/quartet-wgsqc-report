@@ -9,6 +9,8 @@ task mapping {
 	String SENTIEON_LICENSE
 	String group
 	String sample
+	String project
+	String user_define_name = sub(basename(fastq_1, "_R1.fastq.gz"), "_R1.fq.gz$", "")
 	String pl
 	String docker
 	String cluster_config
@@ -19,7 +21,7 @@ task mapping {
 		set -e	
 		export SENTIEON_LICENSE=${SENTIEON_LICENSE}
 		nt=$(nproc)
-		${SENTIEON_INSTALL_DIR}/bin/bwa mem -M -R "@RG\tID:${group}\tSM:${sample}\tPL:${pl}" -t $nt -K 10000000 ${ref_dir}/${fasta} ${fastq_1} ${fastq_2} | ${SENTIEON_INSTALL_DIR}/bin/sentieon util sort -o ${sample}.sorted.bam -t $nt --sam2bam -i -
+		${SENTIEON_INSTALL_DIR}/bin/bwa mem -M -R "@RG\tID:${group}\tSM:${sample}\tPL:${pl}" -t $nt -K 10000000 ${ref_dir}/${fasta} ${fastq_1} ${fastq_2} | ${SENTIEON_INSTALL_DIR}/bin/sentieon util sort -o ${user_define_name}_${project}_${sample}.sorted.bam -t $nt --sam2bam -i -
 	>>>
 
 	runtime {
@@ -29,7 +31,7 @@ task mapping {
     	dataDisk: "cloud_ssd " + disk_size + " /cromwell_root/"
 	}
 	output {
-		File sorted_bam = "${sample}.sorted.bam"
-		File sorted_bam_index = "${sample}.sorted.bam.bai"
+		File sorted_bam = "${user_define_name}_${project}_${sample}.sorted.bam"
+		File sorted_bam_index = "${user_define_name}_${project}_${sample}.sorted.bam.bai"
 	}
 }
