@@ -58,6 +58,7 @@ workflow {{ project_name }} {
 	String db_mills
 	File dbsnp_dir
 	String dbsnp
+	String pl
 
 	File screen_ref_dir
 	File fastq_screen_conf
@@ -76,7 +77,7 @@ workflow {{ project_name }} {
 			input: 
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			SENTIEON_LICENSE=SENTIEON_LICENSE,
-			pl="ILLUMINAL",
+			pl=pl,
 			fasta=fasta,
 			ref_dir=ref_dir,
 			fastq_1=fastq_1_D5,
@@ -220,7 +221,7 @@ workflow {{ project_name }} {
 			input: 
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			SENTIEON_LICENSE=SENTIEON_LICENSE,
-			pl="ILLUMINAL",
+			pl=pl,
 			fasta=fasta,
 			ref_dir=ref_dir,
 			fastq_1=fastq_1_D6,
@@ -363,7 +364,7 @@ workflow {{ project_name }} {
 			input: 
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			SENTIEON_LICENSE=SENTIEON_LICENSE,
-			pl="ILLUMINAL",
+			pl=pl,
 			fasta=fasta,
 			ref_dir=ref_dir,
 			fastq_1=fastq_1_F7,
@@ -506,7 +507,7 @@ workflow {{ project_name }} {
 			input: 
 			SENTIEON_INSTALL_DIR=SENTIEON_INSTALL_DIR,
 			SENTIEON_LICENSE=SENTIEON_LICENSE,
-			pl="ILLUMINAL",
+			pl=pl,
 			fasta=fasta,
 			ref_dir=ref_dir,
 			fastq_1=fastq_1_M8,

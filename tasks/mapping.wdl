@@ -10,8 +10,8 @@ task mapping {
 	String group
 	String sample
 	String project
-	String user_define_name = sub(basename(fastq_1, "_R1.fastq.gz"), "_R1.fq.gz$", "")
 	String pl
+	String user_define_name = sub(basename(fastq_1, "_R1.fastq.gz"), "_R1.fq.gz$", "")
 	String docker
 	String cluster_config
 	String disk_size
