@@ -228,6 +228,7 @@ workflow {{ project_name }} {
 			fastq_2=fastq_2_D6,
 			group=project,
 			sample='LCL6',
+			project=project,
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -371,6 +372,7 @@ workflow {{ project_name }} {
 			fastq_2=fastq_2_F7,
 			group=project,
 			sample='LCL7',
+			project=project,
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -513,6 +515,7 @@ workflow {{ project_name }} {
 			fastq_1=fastq_1_M8,
 			fastq_2=fastq_2_M8,
 			group=project,
+			project=project,
 			sample='LCL8',
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
