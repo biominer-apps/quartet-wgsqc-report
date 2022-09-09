@@ -4,6 +4,8 @@ task fastq_screen {
 	File screen_ref_dir
 	File fastq_screen_conf
 	String docker
+	String project
+	String sample
 	String cluster_config
 	String disk_size
 
@@ -13,8 +15,10 @@ task fastq_screen {
 		nt=$(nproc)
 		mkdir -p /cromwell_root/tmp
 		cp -r ${screen_ref_dir} /cromwell_root/tmp/
-		fastq_screen --aligner bowtie2 --conf ${fastq_screen_conf} --subset 1000000 --threads $nt ${read1}
-		fastq_screen --aligner bowtie2 --conf ${fastq_screen_conf} --subset 1000000 --threads $nt ${read2}
+		cp ${read1} ${project}_${sample}_R1.fastq.gz
+		cp ${read2} ${project}_${sample}_R2.fastq.gz
+		fastq_screen --aligner bowtie2 --conf ${fastq_screen_conf} --subset 1000000 --threads $nt ${project}_${sample}_R1.fastq.gz
+		fastq_screen --aligner bowtie2 --conf ${fastq_screen_conf} --subset 1000000 --threads $nt ${project}_${sample}_R2.fastq.gz
 	>>>
 
 	runtime {
@@ -25,11 +29,11 @@ task fastq_screen {
 	}
 	
 	output {
-		File png1 = sub(basename(read1), "\\.(fastq|fq)\\.gz$", "_screen.png")
-		File txt1 = sub(basename(read1), "\\.(fastq|fq)\\.gz$", "_screen.txt")
-		File html1 = sub(basename(read1), "\\.(fastq|fq)\\.gz$", "_screen.html")
-		File png2 = sub(basename(read2), "\\.(fastq|fq)\\.gz$", "_screen.png")
-		File txt2 = sub(basename(read2), "\\.(fastq|fq)\\.gz$", "_screen.txt")
-		File html2 = sub(basename(read2), "\\.(fastq|fq)\\.gz$", "_screen.html")
+		File png1 = "${project}_${sample}_R1_screen.png"
+		File txt1 = "${project}_${sample}_R1_screen.txt"
+		File html1 = "${project}_${sample}_R1_screen.html"
+		File png2 = "${project}_${sample}_R2_screen.png"
+		File txt2 = "${project}_${sample}_R2_screen.txt"
+		File html2 = "${project}_${sample}_R2_screen.html"
 	}
 }

@@ -71,21 +71,6 @@ workflow {{ project_name }} {
 
 	
 	if (fastq_1_D5!= "") {
-		call rename_fastq.rename_fastq as rename_fastq {
-			input:
-			fastq_1_D5=fastq_1_D5,
-			fastq_1_D6=fastq_1_D6,
-			fastq_1_F7=fastq_1_F7,
-			fastq_1_M8=fastq_1_M8,
-			fastq_2_D5=fastq_2_D5,
-			fastq_2_D6=fastq_2_D6,
-			fastq_2_F7=fastq_2_F7,
-			fastq_2_M8=fastq_2_M8,
-			project=project,
-			docker=DIYdocker,
-			cluster_config=SMALLcluster_config,
-			disk_size=disk_size		
-		}
 
 		call mapping.mapping as mapping_D5 {
 			input: 
@@ -94,8 +79,10 @@ workflow {{ project_name }} {
 			pl="ILLUMINAL",
 			fasta=fasta,
 			ref_dir=ref_dir,
-			fastq_1=rename_fastq.fastq_1_D5_renamed,
-			fastq_2=rename_fastq.fastq_2_D5_renamed,
+			fastq_1=fastq_1_D5,
+			fastq_2=fastq_2_D5,
+			group=project,
+			sample='LCL5',
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -103,8 +90,10 @@ workflow {{ project_name }} {
 
 		call fastqc.fastqc as fastqc_D5 {
 			input:
-			read1=rename_fastq.fastq_1_D5_renamed,
-			read2=rename_fastq.fastq_2_D5_renamed,
+			read1=fastq_1_D5,
+			read2=fastq_2_D5,
+			project=project,
+			sample="LCL5",
 			docker=FASTQCdocker,
 			cluster_config=BIGcluster_config,
 			disk_size=disk_size
@@ -112,8 +101,10 @@ workflow {{ project_name }} {
 
 		call fastqscreen.fastq_screen as fastqscreen_D5 {
 			input:
-			read1=rename_fastq.fastq_1_D5_renamed,
-			read2=rename_fastq.fastq_2_D5_renamed,
+			read1=fastq_1_D5,
+			read2=fastq_2_D5,
+			project=project,
+			sample="LCL5",
 			screen_ref_dir=screen_ref_dir,
 			fastq_screen_conf=fastq_screen_conf,
 			docker=FASTQSCREENdocker,
@@ -231,8 +222,10 @@ workflow {{ project_name }} {
 			pl="ILLUMINAL",
 			fasta=fasta,
 			ref_dir=ref_dir,
-			fastq_1=rename_fastq.fastq_1_D6_renamed,
-			fastq_2=rename_fastq.fastq_2_D6_renamed,
+			fastq_1=fastq_1_D6,
+			fastq_2=fastq_2_D6,
+			group=project,
+			sample='LCL6',
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -240,8 +233,10 @@ workflow {{ project_name }} {
 
 		call fastqc.fastqc as fastqc_D6 {
 			input:
-			read1=rename_fastq.fastq_1_D6_renamed,
-			read2=rename_fastq.fastq_2_D6_renamed,
+			read1=fastq_1_D6,
+			read2=fastq_2_D6,
+			project=project,
+			sample="LCL6",
 			docker=FASTQCdocker,
 			cluster_config=BIGcluster_config,
 			disk_size=disk_size
@@ -249,8 +244,10 @@ workflow {{ project_name }} {
 
 		call fastqscreen.fastq_screen as fastqscreen_D6 {
 			input:
-			read1=rename_fastq.fastq_1_D6_renamed,
-			read2=rename_fastq.fastq_2_D6_renamed,
+			read1=fastq_1_D6,
+			read2=fastq_2_D6,
+			project=project,
+			sample="LCL6",
 			screen_ref_dir=screen_ref_dir,
 			fastq_screen_conf=fastq_screen_conf,
 			docker=FASTQSCREENdocker,
@@ -368,8 +365,10 @@ workflow {{ project_name }} {
 			pl="ILLUMINAL",
 			fasta=fasta,
 			ref_dir=ref_dir,
-			fastq_1=rename_fastq.fastq_1_F7_renamed,
-			fastq_2=rename_fastq.fastq_2_F7_renamed,
+			fastq_1=fastq_1_F7,
+			fastq_2=fastq_2_F7,
+			group=project,
+			sample='LCL7',
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -377,8 +376,10 @@ workflow {{ project_name }} {
 
 		call fastqc.fastqc as fastqc_F7 {
 			input:
-			read1=rename_fastq.fastq_1_F7_renamed,
-			read2=rename_fastq.fastq_2_F7_renamed,
+			read1=fastq_1_F7,
+			read2=fastq_2_F7,
+			project=project,
+			sample="LCL7",
 			docker=FASTQCdocker,
 			cluster_config=BIGcluster_config,
 			disk_size=disk_size
@@ -386,8 +387,10 @@ workflow {{ project_name }} {
 
 		call fastqscreen.fastq_screen as fastqscreen_F7 {
 			input:
-			read1=rename_fastq.fastq_1_F7_renamed,
-			read2=rename_fastq.fastq_2_F7_renamed,
+			read1=fastq_1_F7,
+			read2=fastq_2_F7,
+			project=project,
+			sample="LCL7",
 			screen_ref_dir=screen_ref_dir,
 			fastq_screen_conf=fastq_screen_conf,
 			docker=FASTQSCREENdocker,
@@ -505,8 +508,10 @@ workflow {{ project_name }} {
 			pl="ILLUMINAL",
 			fasta=fasta,
 			ref_dir=ref_dir,
-			fastq_1=rename_fastq.fastq_1_M8_renamed,
-			fastq_2=rename_fastq.fastq_2_M8_renamed,
+			fastq_1=fastq_1_M8,
+			fastq_2=fastq_2_M8,
+			group=project,
+			sample='LCL8',
 			docker=SENTIEONdocker,
 			disk_size=disk_size,
 			cluster_config=BIGcluster_config
@@ -514,8 +519,10 @@ workflow {{ project_name }} {
 
 		call fastqc.fastqc as fastqc_M8 {
 			input:
-			read1=rename_fastq.fastq_1_M8_renamed,
-			read2=rename_fastq.fastq_2_M8_renamed,
+			read1=fastq_1_M8,
+			read2=fastq_2_M8,
+			project=project,
+			sample="LCL8",
 			docker=FASTQCdocker,
 			cluster_config=BIGcluster_config,
 			disk_size=disk_size
@@ -523,8 +530,10 @@ workflow {{ project_name }} {
 
 		call fastqscreen.fastq_screen as fastqscreen_M8 {
 			input:
-			read1=rename_fastq.fastq_1_M8_renamed,
-			read2=rename_fastq.fastq_2_M8_renamed,
+			read1=fastq_1_M8,
+			read2=fastq_2_M8,
+			project=project,
+			sample="LCL8",
 			screen_ref_dir=screen_ref_dir,
 			fastq_screen_conf=fastq_screen_conf,
 			docker=FASTQSCREENdocker,
