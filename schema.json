@@ -25,6 +25,30 @@
     },
     {
       "tmplType": "radio",
+      "label": "Platform?",
+      "model": "pl",
+      "options": [
+        {
+          "label": "BGI",
+          "value": "BGI"
+        },
+        {
+          "label": "ILLUMINA",
+          "value": "ILLUMINA"
+        }
+      ],
+      "config": {
+        "rules": [
+          {
+            "type": "string",
+            "required": true,
+            "message": "Please select a platform."
+          }
+        ]
+      }
+    },
+    {
+      "tmplType": "radio",
       "label": "FASTQ/VCF File?",
       "model": "fastq_or_vcf",
       "options": [
@@ -75,7 +99,7 @@
       "multiple": true,
       "visibleVariable": "fastq_or_vcf",
       "expectedValue": "fastq",
-      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "filterType": "_R[12].fastq.gz|_R[12].fq.gz",
       "placeholder": "Select files for D5 read1.",
       "config": {
         "rules": [
@@ -95,7 +119,7 @@
       "multiple": true,
       "visibleVariable": "fastq_or_vcf",
       "expectedValue": "fastq",
-      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "filterType": "_R[12].fastq.gz|_R[12].fq.gz",
       "placeholder": "Select files for D5 read2.",
       "config": {
         "rules": [
@@ -135,7 +159,7 @@
       "multiple": true,
       "visibleVariable": "fastq_or_vcf",
       "expectedValue": "fastq",
-      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "filterType": "_R[12].fastq.gz|_R[12].fq.gz",
       "placeholder": "Select files for D6 read1.",
       "config": {
         "rules": [
@@ -155,7 +179,7 @@
       "multiple": true,
       "visibleVariable": "fastq_or_vcf",
       "expectedValue": "fastq",
-      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "filterType": "_R[12].fastq.gz|_R[12].fq.gz",
       "placeholder": "Select files for D6 read2.",
       "config": {
         "rules": [
@@ -195,7 +219,7 @@
       "multiple": true,
       "visibleVariable": "fastq_or_vcf",
       "expectedValue": "fastq",
-      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "filterType": "_R[12].fastq.gz|_R[12].fq.gz",
       "placeholder": "Select files for F7 read1.",
       "config": {
         "rules": [
@@ -215,7 +239,7 @@
       "multiple": true,
       "visibleVariable": "fastq_or_vcf",
       "expectedValue": "fastq",
-      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "filterType": "_R[12].fastq.gz|_R[12].fq.gz",
       "placeholder": "Select files for F7 read2.",
       "config": {
         "rules": [
@@ -255,7 +279,7 @@
       "multiple": true,
       "visibleVariable": "fastq_or_vcf",
       "expectedValue": "fastq",
-      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "filterType": "_R[12].fastq.gz|_R[12].fq.gz",
       "placeholder": "Select files for M8 read1.",
       "config": {
         "rules": [
@@ -275,7 +299,7 @@
       "multiple": true,
       "visibleVariable": "fastq_or_vcf",
       "expectedValue": "fastq",
-      "filterType": "fastq|fastq.gz|fq|fq.gz",
+      "filterType": "_R[12].fastq.gz|_R[12].fq.gz",
       "placeholder": "Select files for M8 read2.",
       "config": {
         "rules": [
