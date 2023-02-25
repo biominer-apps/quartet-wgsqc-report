@@ -14,7 +14,7 @@ task merge_family {
 	
 	command <<<
 
-		/opt/rtg-tools/dist/rtg-tools-3.10.1-4d58ead/rtg vcfmerge --force-merge-all -o ${project}.family.vcf.gz ${D5_vcf} ${D6_vcf} ${F7_vcf} ${M8_vcf}
+		rtg vcfmerge --force-merge-all -o ${project}.family.vcf.gz ${D5_vcf} ${D6_vcf} ${F7_vcf} ${M8_vcf}
 		gunzip ${project}.family.vcf.gz 
 
 	>>>

@@ -15,11 +15,11 @@
 		cat header body.filtered > ${project}.filtered.vcf
 
 		if [ ${bed} ];then
-			/opt/ccdg/bedtools-2.27.1/bin/bedtools intersect -a ${project}.filtered.vcf -b ${bed} > body.bed.filtered
+			bedtools intersect -a ${project}.filtered.vcf -b ${bed} > body.bed.filtered
 
 			cat header body.bed.filtered > ${project}.filtered.vcf
 
-			/opt/ccdg/bedtools-2.27.1/bin/bedtools intersect -a ${benchmark_region} -b ${bed} > benchmark_region_query_bed.bed
+			bedtools intersect -a ${benchmark_region} -b ${bed} > benchmark_region_query_bed.bed
 		fi
 
 	>>>

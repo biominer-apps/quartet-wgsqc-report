@@ -7,7 +7,7 @@ task extract_tables_vcf {
 	String disk_size
 
 	command <<<
-		python /opt/extract_tables.py -hap ${hap} -project ${project}
+		/opt/conda/bin/python /venv/wgs-workflow/codescripts/extract_tables.py -hap ${hap} -project ${project}
 	>>>
 
 	runtime {

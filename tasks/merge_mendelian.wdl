@@ -19,7 +19,7 @@ task merge_mendelian {
 		    } 
 		    { print }
 		' > ${family_name}.consensus.txt
-		python /opt/merge_two_family_with_genotype.py -LCL5 ${family_name}.D5.txt -LCL6 ${family_name}.D6.txt -genotype ${family_name}.consensus.txt -family ${family_name}
+		/opt/conda/bin/python /venv/wgs-workflow/codescripts/merge_two_family_with_genotype.py -LCL5 ${family_name}.D5.txt -LCL6 ${family_name}.D6.txt -genotype ${family_name}.consensus.txt -family ${family_name}
 	>>>
 
 	runtime {

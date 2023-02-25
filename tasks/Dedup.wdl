@@ -5,6 +5,7 @@ task Dedup {
 	File sorted_bam_index
 	String sample = basename(sorted_bam,".sorted.bam")
 	String docker
+	String SENTIEON_LICENSE
 	String cluster_config
 	String disk_size
 
@@ -12,7 +13,7 @@ task Dedup {
 	command <<<
 		set -o pipefail
 		set -e
-		export SENTIEON_LICENSE=192.168.0.55:8990
+		export SENTIEON_LICENSE=${SENTIEON_LICENSE}
 		nt=$(nproc)
 		${SENTIEON_INSTALL_DIR}/bin/sentieon driver -t $nt -i ${sorted_bam} --algo LocusCollector --fun score_info ${sample}_score.txt
 		${SENTIEON_INSTALL_DIR}/bin/sentieon driver -t $nt -i ${sorted_bam} --algo Dedup --rmdup --score_info ${sample}_score.txt --metrics ${sample}_dedup_metrics.txt ${sample}.sorted.deduped.bam	

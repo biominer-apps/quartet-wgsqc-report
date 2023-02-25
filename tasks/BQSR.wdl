@@ -9,6 +9,7 @@ task BQSR {
 	String db_mills
 	File realigned_bam
 	File realigned_bam_index
+	String SENTIEON_LICENSE
 	String sample = basename(realigned_bam,".sorted.deduped.realigned.bam")
 	String docker
 	String cluster_config
@@ -18,7 +19,7 @@ task BQSR {
 	command <<<
 		set -o pipefail
 		set -e
-		export SENTIEON_LICENSE=192.168.0.55:8990
+		export SENTIEON_LICENSE=${SENTIEON_LICENSE}
 		nt=$(nproc)
 
 		${SENTIEON_INSTALL_DIR}/bin/sentieon driver -r ${ref_dir}/${fasta} -t $nt -i ${realigned_bam} --algo QualCal -k ${dbsnp_dir}/${dbsnp} -k ${dbmills_dir}/${db_mills} ${sample}_recal_data.table

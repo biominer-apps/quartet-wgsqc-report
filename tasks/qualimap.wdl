@@ -11,7 +11,7 @@ task qualimap {
 		set -e
 		nt=$(nproc)
 
-		/opt/qualimap/qualimap bamqc -bam ${bam} -outformat PDF:HTML -nt $nt -outdir ${bamname} --java-mem-size=60G
+		qualimap bamqc -bam ${bam} -outformat PDF:HTML -nt $nt -outdir ${bamname} --java-mem-size=60G
 
 		tar -zcvf ${bamname}_qualimap.zip ${bamname}
 	>>>

@@ -11,6 +11,7 @@ task Realigner {
 	String sample = basename(Dedup_bam,".sorted.deduped.bam")
 	String db_mills
 	String docker	
+	String SENTIEON_LICENSE
 	String cluster_config
 	String disk_size
 
@@ -18,7 +19,7 @@ task Realigner {
 	command <<<
 	set -o pipefail
 	set -e
-	export SENTIEON_LICENSE=192.168.0.55:8990
+	export SENTIEON_LICENSE=${SENTIEON_LICENSE}
 	nt=$(nproc)
 	${SENTIEON_INSTALL_DIR}/bin/sentieon driver -r ${ref_dir}/${fasta} -t $nt -i ${Dedup_bam} --algo Realigner -k ${dbmills_dir}/${db_mills} ${sample}.sorted.deduped.realigned.bam
 	
