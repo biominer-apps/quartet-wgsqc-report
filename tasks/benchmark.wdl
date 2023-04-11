@@ -14,8 +14,11 @@ task benchmark {
 		set -e
 		nt=$(nproc)
 		mkdir -p /cromwell_root/tmp
-		cp -r ${ref_dir} /cromwell_root/tmp/
-		cp -r ${benchmarking_dir} /cromwell_root/tmp/
+
+		# cp -r ${ref_dir} /cromwell_root/tmp/
+		ln -sf ${ref_dir} /cromwell_root/tmp/
+		# cp -r ${benchmarking_dir} /cromwell_root/tmp/
+		ln -sf ${benchmarking_dir} /cromwell_root/tmp/
 
 		export HGREF=/cromwell_root/tmp/reference_data/GRCh38.d1.vd1.fa
 

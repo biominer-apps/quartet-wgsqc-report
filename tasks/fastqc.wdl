@@ -12,8 +12,10 @@ task fastqc {
 		set -o pipefail
 		set -e
 		nt=$(nproc)
-		cp ${read1} ${user_define_name}_${project}_${sample}_R1.fastq.gz
-		cp ${read2} ${user_define_name}_${project}_${sample}_R2.fastq.gz
+		# cp ${read1} ${user_define_name}_${project}_${sample}_R1.fastq.gz
+		ln -sf ${read1} ${user_define_name}_${project}_${sample}_R1.fastq.gz
+		# cp ${read2} ${user_define_name}_${project}_${sample}_R2.fastq.gz
+		ln -sf ${read2} ${user_define_name}_${project}_${sample}_R2.fastq.gz
 		fastqc -t $nt -o ./ ${user_define_name}_${project}_${sample}_R1.fastq.gz
 		fastqc -t $nt -o ./ ${user_define_name}_${project}_${sample}_R2.fastq.gz
 	>>>

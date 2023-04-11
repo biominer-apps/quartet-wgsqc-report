@@ -15,9 +15,14 @@ task fastq_screen {
 		set -e
 		nt=$(nproc)
 		mkdir -p /cromwell_root/tmp
-		cp -r ${screen_ref_dir} /cromwell_root/tmp/
-		cp ${read1} ${user_define_name}_${project}_${sample}_R1.fastq.gz
-		cp ${read2} ${user_define_name}_${project}_${sample}_R2.fastq.gz
+
+		# cp -r ${screen_ref_dir} /cromwell_root/tmp/
+		ln -sf ${screen_ref_dir} /cromwell_root/tmp/
+		# cp ${read1} ${user_define_name}_${project}_${sample}_R1.fastq.gz
+		ln -sf ${read1} ${user_define_name}_${project}_${sample}_R1.fastq.gz
+		# cp ${read2} ${user_define_name}_${project}_${sample}_R2.fastq.gz
+		ln -sf ${read2} ${user_define_name}_${project}_${sample}_R2.fastq.gz
+
 		fastq_screen --aligner bowtie2 --conf ${fastq_screen_conf} --subset 1000000 --threads $nt ${user_define_name}_${project}_${sample}_R1.fastq.gz
 		fastq_screen --aligner bowtie2 --conf ${fastq_screen_conf} --subset 1000000 --threads $nt ${user_define_name}_${project}_${sample}_R2.fastq.gz
 	>>>
