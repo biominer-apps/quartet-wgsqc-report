@@ -8,7 +8,7 @@ task mendelian {
 	String disk_size
 	
 	command <<<
-		export LD_LIBRARY_PATH=/opt/htslib-1.9
+		export LD_LIBRARY_PATH=/opt/htslib-1.9:$LD_LIBRARY_PATH
 		nt=$(nproc)
 
 		echo -e "${family_name}\tLCL8\t0\t0\t2\t-9\n${family_name}\tLCL7\t0\t0\t1\t-9\n${family_name}\tLCL5\tLCL7\tLCL8\t2\t-9" > ${family_name}.D5.ped
