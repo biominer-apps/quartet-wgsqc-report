@@ -14,7 +14,7 @@ rep = args.rep
 
 quartet_sample = pd.read_table(sample,header=None)
 quartet_sample = list(quartet_sample[0])
-quartet_rep = pd.read_table(rep.header=None)
+quartet_rep = pd.read_table(rep,header=None)
 quartet_rep = quartet_rep[0]
 
 #tags

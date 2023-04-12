@@ -126,23 +126,9 @@ def consensus_call(vcf_info_list):
 	tag = ['inconGT','inconSequenceSite']
 	if (pcr_consensus == pcr_free_consensus) and (pcr_consensus not in tag):
 		consensus_call = pcr_consensus
-	elif (pcr_consensus in tag) and (pcr_free_consensus in tag):
-		consensus_call = 'notAgree'				
-
 	else:
 		consensus_call = 'notConsensus'
 	return consensus_call, detected_num, same_diff
-
-	elif (pcr_consensus in tag) and (pcr_free_consensus in tag):
-		consensus_call = 'filtered'				
-	elif ((pcr_consensus == './.') or (pcr_consensus in tag)) and ((pcr_free_consensus not in tag) and (pcr_free_consensus != './.')):
-		consensus_call = 'pcr-free-speicifc'				
-	elif ((pcr_consensus != './.') or (pcr_consensus not in tag)) and ((pcr_free_consensus in tag) and (pcr_free_consensus == './.')):
-		consensus_call = 'pcr-speicifc'			
-	elif (pcr_consensus == '0/0') and (pcr_free_consensus == '0/0'):
-		consensus_call = '0/0'								
-	else:
-		consensus_call = 'filtered'
 
 
 for row in vcf_dat.itertuples():

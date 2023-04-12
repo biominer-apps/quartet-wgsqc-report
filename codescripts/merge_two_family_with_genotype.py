@@ -150,9 +150,9 @@ snv_sister = snv_sister_same/(snv_sister_same + snv_sister_diff)
 indel_sister = indel_sister_same/(indel_sister_same + indel_sister_diff)
 snv_quartet = snv_family_mendelian/snv_family_all
 indel_quartet = indel_family_mendelian/indel_family_all
-outcolumn =  'Family\tReproducibility_D5_D6\tMendelian_Concordance_Quartet\n'
-indel_outResult = family + '.INDEL' + '\t' + str(indel_sister) + '\t' + str(indel_quartet) + '\n'
-snv_outResult = family + '.SNV' + '\t' + str(snv_sister) + '\t' + str(snv_quartet) + '\n'
+outcolumn =  'Family\tTotal_Variants\tMendelian_Concordant_Variants\tMendelian_Concordance_Rate\n'
+indel_outResult = family + '.INDEL' + '\t' + str(indel_family_all) + '\t' + str(indel_family_mendelian) + '\t' + str(indel_quartet) + '\n'
+snv_outResult = family + '.SNV' + '\t' + str(snv_family_all) + '\t' + str(snv_family_mendelian)  + '\t' + str(snv_quartet) + '\n'
 summary_file.write(outcolumn)
 summary_file.write(indel_outResult)
 summary_file.write(snv_outResult)

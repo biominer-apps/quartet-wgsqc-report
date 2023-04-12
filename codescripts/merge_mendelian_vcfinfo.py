@@ -34,7 +34,7 @@ vcf_header = '''##fileformat=VCFv4.2
 ##FORMAT=<ID=GQ,Number=1,Type=Integer,Description="Genotype quality">
 ##FORMAT=<ID=QD,Number=1,Type=Float,Description="Variant Confidence/Quality by Depth">
 ##FORMAT=<ID=MQ,Number=1,Type=Float,Description="Mapping quality">
-##FORMAT=<ID=FS,Number=1,Type=Float,Description="Phred-scaled p-value using Fisher's exact test to detect strand bias">
+##FORMAT=<ID=FS,Number=1,Type=Float,Description="Phred-scaled p-value using Fisher's exact test to detect strand bia">
 ##FORMAT=<ID=QUAL,Number=1,Type=Float,Description="variant quality">
 ##contig=<ID=chr1,length=248956422>
 ##contig=<ID=chr2,length=242193529>

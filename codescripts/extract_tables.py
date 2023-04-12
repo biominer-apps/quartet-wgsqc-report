@@ -64,15 +64,16 @@ if args.quality_yield:
 	quality_yield = quality_yield * 100
 	quality_yield['Sample'] = [x[-1] for x in quality_yield['Sample'].str.split('/')]
 	dat = pd.read_table(wgs_metrics_file,index_col=False)
-	wgs_metrics = dat[['Sample','MEDIAN_COVERAGE','PCT_1X', 'PCT_5X', 'PCT_10X','PCT_30X']]
+	wgs_metrics = dat[['Sample','MEDIAN_COVERAGE','PCT_1X', 'PCT_5X', 'PCT_10X','PCT_20X','PCT_30X']]
 	wgs_metrics['PCT_1X'] = wgs_metrics['PCT_1X'] * 100
 	wgs_metrics['PCT_5X'] = wgs_metrics['PCT_5X'] * 100
 	wgs_metrics['PCT_10X'] = wgs_metrics['PCT_10X'] * 100
+	wgs_metrics['PCT_20X'] = wgs_metrics['PCT_20X'] * 100
 	wgs_metrics['PCT_30X'] = wgs_metrics['PCT_30X'] * 100
 	wgs_metrics['Sample'] = [x[-1] for x in wgs_metrics['Sample'].str.split('/')]
 	data_frames = [aln_metrics, is_metrics, quality_yield, wgs_metrics]
 	post_alignment_dat = reduce(lambda  left,right: pd.merge(left,right,on=['Sample'],how='outer'), data_frames)
-	post_alignment_dat.columns = ['Sample', '%Mapping', '%Mismatch Rate', 'Mendelian Insert Size','%Q20', '%Q30', 'Median Coverage', 'PCT_1X', 'PCT_5X', 'PCT_10X','PCT_30X']
+	post_alignment_dat.columns = ['Sample', '%Mapping', '%Mismatch Rate', 'Mendelian Insert Size','%Q20', '%Q30', 'Median Coverage', 'PCT_1X', 'PCT_5X', 'PCT_10X','PCT_20X','PCT_30X']
 	post_alignment_dat = post_alignment_dat.round(2)
 	post_alignment_dat.to_csv('post_alignment.txt',sep="\t",index=0)
 	#########################################

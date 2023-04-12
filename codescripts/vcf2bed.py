@@ -1,36 +1,42 @@
-import re
+import sys,getopt
+import os
+import fileinput
+outFile = open(sys.argv[2],'w')
+for line in fileinput.input(sys.argv[1]):
+	line = line.rstrip()
+	strings = line.strip().split('\t')
+#d5
+	if ',' in strings[6]:
+		alt_strings = strings[6].split(',')
+		alt_len = [len(i) for i in alt_strings]
+		alt = max(alt_len)
+	else:
+		alt = len(strings[6])
+	ref = strings[5]
+	pos = int(strings[1])
+	if len(ref) == 1 and alt == 1:
+		StartPos = int(pos) -1
+		EndPos = int(pos)
+		cate = 'SNV'
+	elif len(ref) > alt:
+		StartPos = int(pos) - 1
+		EndPos = int(pos) + (len(ref) - 1)
+		cate = 'INDEL'
+	elif alt > len(ref):
+		StartPos = int(pos) - 1
+		EndPos = int(pos) + (alt - 1)
+		cate = 'INDEL'
+	elif len(ref) == alt:
+		StartPos = int(pos) - 1
+		EndPos = int(pos) + (alt - 1)
+		cate = 'INDEL'
+	outline = '\t'.join(strings) + '\t' + str(StartPos) + '\t' + str(EndPos) + '\t' + cate + '\n'
+	outFile.write(outline)
 
-def position_to_bed(chromo,pos,ref,alt):
-    # snv
-    # Start cooridinate BED = start coordinate VCF - 1
-    # End cooridinate BED = start coordinate VCF 
 
-    if len(ref) == 1 and len(alt) == 1:
-        StartPos = int(pos) -1
-        EndPos = int(pos)
-    
-    # deletions
-    # Start cooridinate BED = start coordinate VCF - 1
-    # End cooridinate BED = start coordinate VCF + (reference length - alternate length)
 
-    elif len(ref) > 1 and len(alt) == 1:
-        StartPos = int(pos) - 1
-        EndPos = int(pos) + (len(ref) - 1)
-        
-    #insertions
-    # For insertions:
-    # Start cooridinate BED = start coordinate VCF - 1
-    # End cooridinate BED = start coordinate VCF + (alternate length - reference length)
 
-    else:
-        StartPos = int(pos) - 1
-        EndPos = int(pos) + (len(alt) - 1)
 
-    return chromo,StartPos,EndPos
 
-def padding_region(chromo,pos1,pos2,padding):
-    StartPos1 = pos1 - padding
-    EndPos1 = pos1
-    StartPos2 = pos2
-    EndPos2 = pos2 + padding
-    return chromo,StartPos1,EndPos1,StartPos2,EndPos2
+
+

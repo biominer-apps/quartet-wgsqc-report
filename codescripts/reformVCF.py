@@ -83,14 +83,14 @@ def process(oneLine):
 	line = oneLine.rstrip()
 	strings = line.strip().split('\t')
 	# replace .
-	# LCL6 uniq
+	# LCL5 uniq
 	if strings[11] == '.':
 		strings[11] = '0/0'
 		strings[9] = strings[12]
 		strings[10] = strings[13]
 	else:
 		pass
-	# LCL5 uniq
+	# LCL6 uniq
 	if strings[14] == '.':
 		strings[14] = '0/0'
 		strings[12] = strings[9]
