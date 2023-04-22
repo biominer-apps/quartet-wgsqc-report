@@ -35,10 +35,10 @@ task fastq_screen {
 	}
 	
 	output {
-		File png1 = "${user_define_name}_${project}_${sample}_R1_screen.png"
+		# File png1 = "${user_define_name}_${project}_${sample}_R1_screen.png"
 		File txt1 = "${user_define_name}_${project}_${sample}_R1_screen.txt"
 		File html1 = "${user_define_name}_${project}_${sample}_R1_screen.html"
-		File png2 = "${user_define_name}_${project}_${sample}_R2_screen.png"
+		# File png2 = "${user_define_name}_${project}_${sample}_R2_screen.png"
 		File txt2 = "${user_define_name}_${project}_${sample}_R2_screen.txt"
 		File html2 = "${user_define_name}_${project}_${sample}_R2_screen.html"
 	}
